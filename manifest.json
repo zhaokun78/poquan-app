@@ -1,15 +1,16 @@
 {
-    "name" : "即日办",
-    "appid" : "__UNI__44A8AB0",
+    "name" : "poquanhulian",
+    "appid" : "__UNI__7C5AD08",
     "description" : "",
-    "versionName" : "2.2.22",
-    "versionCode" : 233,
+    "versionName" : "0.0.1",
+    "versionCode" : 1,
     "transformPx" : false,
     "app-plus" : {
         /* 5+App特有相关 */
         "modules" : {
             "Maps" : {},
-            "Push" : {}
+            "Push" : {},
+            "Share" : {}
         },
         /* 模块配置 */
         "distribute" : {
@@ -55,7 +56,8 @@
                 },
                 "push" : {
                     "unipush" : {}
-                }
+                },
+                "share" : {}
             }
         }
     },
@@ -75,7 +77,7 @@
         }
     },
     "h5" : {
-        "title" : "Do it today",
+        "title" : "破圈",
         "domain" : "myhjdc.cn"
     }
 }

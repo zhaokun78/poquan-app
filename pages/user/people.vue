@@ -3,7 +3,9 @@
 		<scroll-view scroll-y class="page">
 			<!-- 头部logo-->
 			<view class="UCenter-bg" @click="remove">
-				<view class="cu-avatar xl round margin-left" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"></view>
+				<view class="cu-avatar xl round margin-left"
+					style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);">
+				</view>
 				<view class="text-xl animation-slide-left" :style="[{animationDelay: '0.2s'}]">
 					{{personalList.username}}
 				</view>
@@ -12,15 +14,18 @@
 			<view class="padding flex text-center text-grey bg-white shadow-warp">
 				<view class="flex flex-sub flex-direction solid-right">
 					<view class="margin-top-sm">
-						<text class="cuIcon-appreciate text-blue"></text>我点赞的</view>
+						<text class="cuIcon-appreciate text-blue"></text>我点赞的
+					</view>
 				</view>
 				<view class="flex flex-sub flex-direction solid-right">
 					<view class="margin-top-sm">
-						<text class="cuIcon-favor text-blue"></text>我收藏的</view>
+						<text class="cuIcon-favor text-blue"></text>我收藏的
+					</view>
 				</view>
 				<view class="flex flex-sub flex-direction">
 					<view class="margin-top-sm">
-						<text class="cuIcon-friendfamous text-blue"></text>我关注的</view>
+						<text class="cuIcon-friendfamous text-blue"></text>我关注的
+					</view>
 				</view>
 			</view>
 			<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
@@ -30,7 +35,15 @@
 						<text class="text-grey">操作指引</text>
 					</view>
 				</view>
-				<navigator url="/pages/user/userdetail" class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.1s'}]">
+				<navigator url="/pages/user/promo_code" class="cu-item arrow animation-slide-bottom"
+					:style="[{animationDelay: '0.1s'}]">
+					<view class="content">
+						<text class="cuIcon-qrcode text-black"></text>
+						<text class="text-grey">我的推广码</text>
+					</view>
+				</navigator>
+				<navigator url="/pages/user/userdetail" class="cu-item arrow animation-slide-bottom"
+					:style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="cuIcon-peoplelist text-yellow"></text>
 						<text class="text-grey">个人资料</text>
@@ -113,7 +126,8 @@
 					console.log("res", res)
 					if (res.data.success) {
 						let perArr = res.data.result
-						let avatar = (perArr.avatar && perArr.avatar.length > 0) ? api.getFileAccessHttpUrl(perArr.avatar) :
+						let avatar = (perArr.avatar && perArr.avatar.length > 0) ? api.getFileAccessHttpUrl(perArr
+								.avatar) :
 							'/static/avatar_boy.png'
 						this.personalList.avatar = avatar
 						this.personalList.realname = perArr.realname

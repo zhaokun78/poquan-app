@@ -3,7 +3,7 @@
 		<cu-custom bgColor="bg-gradual-pink" :isBack="true">
 			<view slot="backText">返回</view>
 			<view slot="content">发表日记</view>
-			<view slot="right" @tap="save">发表</view>
+			<view v-if="!isBusy" slot="right" @tap="save">发表</view>
 		</cu-custom>
 		<form>
 			<view class="cu-form-group margin-top">
@@ -24,16 +24,68 @@
 </template>
 
 <script>
+	//发表新日记
+	//经纬度可为空
+	async function newDiary(that, longitude, latitude) {
+		//新增日记
+		let ret = await that.$http.post('/showme/showmePost/add', {
+			title: that.title,
+			type: 0,
+			industryCategory: that.industryCategory,
+			state: 0,
+			longitude: longitude,
+			latitude: latitude
+		})
+
+		if (ret.data.success) {
+			//新增日记段落
+			for (let i = 0; i < that.postParagraph.length; i++) {
+				let r = await that.$http.post(
+					'/showme/showmePost/addShowmePostParagraph', {
+						postId: ret.data.result,
+						paragraphId: that.postParagraph[i].id,
+						content: that.postParagraph[i].content
+					})
+				if (!r.data.success) {
+					that.isBusy = false;
+					uni.hideLoading();
+					that.$tip.error('发表日记失败：' + r.data.message);
+					return;
+				}
+			}
+
+			uni.hideLoading();
+			uni.showModal({
+				title: '成功',
+				content: '发表日记成功！',
+				showCancel: false,
+				success: function(res) {
+					if (res.confirm) {
+						that.isBusy = false;
+						uni.navigateBack({
+							delta: 1
+						});
+					}
+				}
+			});
+		} else {
+			that.isBusy = false;
+			uni.hideLoading();
+			that.$tip.error('发表日记失败：' + ret.data.message);
+		}
+	}
+
 	export default {
 		data() {
 			return {
 				title: '', //日记标题
 				industryCategory: '', //行业分类
-				postParagraph: [] //日记段落内容 HTML
+				postParagraph: [], //日记段落内容 HTML
+				isBusy: false //为 true 代表正在发送请求
 			}
 		},
 		methods: {
-			save() {
+			async save() {
 				//检测必填项
 				if (this.title.trim() == '') {
 					this.$tip.error('请填写标题！');
@@ -52,37 +104,21 @@
 					}
 				}
 
-				//获取位置
+				this.isBusy = true;
+				uni.showLoading({
+					title: '处理中...'
+				})
+
 				let that = this
+
+				//获取位置
 				uni.getLocation({
 					type: 'gcj02',
 					success: async function(res) {
-						//新增日记
-						let ret = await that.$http.post('/showme/showmePost/add', {
-							title: that.title,
-							type: 0,
-							industryCategory: that.industryCategory,
-							state: 0,
-							longitude: res.longitude,
-							latitude: res.latitude
-						})
-
-						if (ret.data.success) {
-							//新增日记段落
-							for (let i = 0; i < that.postParagraph.length; i++) {
-								let r = await that.$http.post('/showme/showmePost/addShowmePostParagraph', {
-									postId: ret.data.result,
-									paragraphId: that.postParagraph[i].id,
-									content: that.postParagraph[i].content
-								})
-								if (!r.data.success) {
-									that.$tip.error('保存日记失败：' + r.data.message);
-								}
-							}
-						}
+						newDiary(that, res.longitude, res.latitude);
 					},
 					fail: function(e) {
-						that.$tip.error('获取位置失败！');
+						newDiary(that);
 					}
 				});
 			}

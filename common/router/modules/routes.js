@@ -44,6 +44,27 @@ const routes = [{
 		},
 	},
 	{
+		path: '/pages/user/promo_code',
+		name: 'promo_code',
+		meta: {
+			title: '推广码',
+		},
+	},
+	{
+		path: '/pages/user/register',
+		name: 'register',
+		meta: {
+			title: '用户注册',
+		},
+	},
+	{
+		path: '/pages/user/forgetpassword',
+		name: 'forgetpassword',
+		meta: {
+			title: '忘记密码',
+		},
+	},
+	{
 		path: '/pages/user/userdetail',
 		name: 'userdetail',
 		meta: {

@@ -10,7 +10,7 @@ const router = new Router({
     routes: [...modules]//路由表
 });
 
-const whiteList = ['/pages/login/login'] 
+const whiteList = ['/pages/login/login','/pages/user/register','/pages/user/forgetpassword'] 
 //全局路由前置守卫
 router.beforeEach((to, from, next) => {
 	let token=uni.getStorageSync(ACCESS_TOKEN);
@@ -26,6 +26,6 @@ router.beforeEach((to, from, next) => {
 })
 // 全局路由后置守卫
 router.afterEach((to, from) => {
-	console.log("afterEach")
+	console.log("afterEach",from,to)
 })
 export default router;
