@@ -13,7 +13,8 @@
 						<text class="text-grey">头像</text>
 					</view>
 					<view class="action">
-						<view class="cu-avatar round sm" :style="{backgroundImage: 'url(' + personalMsg.avatar + ')'}"></view>
+						<view class="cu-avatar round sm" :style="{backgroundImage: 'url(' + personalMsg.avatar + ')'}">
+						</view>
 					</view>
 
 				</view>
@@ -105,12 +106,14 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator url="/pages/user/user_gerenjingli" class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.1s'}]">
+				<navigator url="/pages/user/user_gerenjingli" class="cu-item arrow animation-slide-bottom"
+					:style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="text-grey">个人经历</text>
 					</view>
 				</navigator>
-				<navigator url="/pages/user/user_gerenjingyan" class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.1s'}]">
+				<navigator url="/pages/user/user_gerenjingyan" class="cu-item arrow animation-slide-bottom"
+					:style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="text-grey">个人经验</text>
 					</view>
@@ -160,7 +163,7 @@
 					realname: '',
 					username: '',
 					sex: 1,
-					birthday: new Date(),
+					birthday: '',
 					orgCode: '',
 					workNo: '',
 					status: 1,
@@ -228,6 +231,7 @@
 					console.log("请求错误", e)
 				})
 
+				/*
 				this.$http.get(this.departUrl, {
 					params: {
 						userId: this.$store.getters.userid
@@ -242,6 +246,7 @@
 				}).catch(e => {
 					console.log("请求错误", e)
 				})
+				*/
 
 				this.$http.get(this.positionUrl).then(res => {
 					if (res.success) {

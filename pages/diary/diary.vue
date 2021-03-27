@@ -16,7 +16,7 @@
 				<view class="flex flex-sub flex-direction solid-right">
 					<view class="text-xxl text-blue">20</view>
 					<view class="margin-top-sm">
-						<text class="cuIcon-favorfill"></text> 收藏
+						<text class="cuIcon-favorfill"></text> 被收藏
 					</view>
 				</view>
 				<view class="flex flex-sub flex-direction">
@@ -69,7 +69,7 @@
 				if (that.pageNo > res.data.result.pages) {
 					uni.showModal({
 						title: '询问',
-						content: '没有更多数据，是否重新加载？',
+						content: '到头了，是否重新加载？',
 						success: function(res) {
 							if (res.confirm) {
 								that.pageNo = 1;

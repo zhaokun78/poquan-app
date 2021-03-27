@@ -106,8 +106,12 @@
 				this.readOnly = !this.readOnly
 			},
 			onEditorReady() {
+				let that = this
 				uni.createSelectorQuery().select('#' + this.editorId).context((res) => {
 					this.editorCtx = res.context
+					that.editorCtx.setContents({
+						html: that.content
+					});
 				}).exec()
 			},
 			undo() {

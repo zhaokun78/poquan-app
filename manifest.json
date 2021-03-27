@@ -10,7 +10,8 @@
         "modules" : {
             "Maps" : {},
             "Push" : {},
-            "Share" : {}
+            "Share" : {},
+            "Payment" : {}
         },
         /* 模块配置 */
         "distribute" : {
@@ -57,7 +58,12 @@
                 "push" : {
                     "unipush" : {}
                 },
-                "share" : {}
+                "share" : {},
+                "payment" : {
+                    "alipay" : {
+                        "__platform__" : [ "android" ]
+                    }
+                }
             }
         }
     },

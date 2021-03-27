@@ -6,7 +6,8 @@
 		</cu-custom>
 		<form>
 			<view class="cu-form-group">
-				<textarea maxlength="-1" auto-height=true v-model="myFormData.pyGerenjingyan"></textarea>
+				<rich-text-editor v-if="myFormData.pyGerenjingyan!=''" id="pyGerenjingyan"
+					:content.sync="myFormData.pyGerenjingyan"></rich-text-editor>
 			</view>
 			<view class="padding flex flex-direction">
 				<button class="cu-btn bg-blue lg" @click="onSubmit">提交</button>
@@ -26,14 +27,15 @@
 			};
 		},
 		onLoad: function(option) {
-			this.$http.get('/showme/showmeUserext/queryByUserName?username=' + this.$store.getters.username).then(res => {
-				console.log("res::", res)
-				if (res.data.success) {
-					let result = res.data.result;
-					this.myFormData.id = result.id;
-					this.myFormData.pyGerenjingyan = result.pyGerenjingyan;
-				}
-			});
+			this.$http.get('/showme/showmeUserext/queryByUserName?username=' + this.$store.getters.username).then(
+				res => {
+					console.log("res::", res)
+					if (res.data.success) {
+						let result = res.data.result;
+						this.myFormData.id = result.id;
+						this.myFormData.pyGerenjingyan = result.pyGerenjingyan;
+					}
+				});
 		},
 		methods: {
 			onSubmit() {

@@ -3,7 +3,7 @@
 		<scroll-view scroll-y class="page">
 			<view style="text-align: center;" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
 				<image src="/static/login3.png" mode='aspectFit' class="zai-logo"></image>
-				<view class="zai-title">JEECG BOOT</view>
+				<view class="zai-title">破圈互联</view>
 			</view>
 			<view class="box padding-lr-xl login-paddingtop" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
 

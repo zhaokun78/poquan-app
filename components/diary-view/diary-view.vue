@@ -29,10 +29,33 @@
 					</view>
 				</view>
 			</view>
+			<!-- 个人经历 -->
+			<view class="solids-bottom padding-xs flex">
+				<view class="flex-sub">
+					<view class="solid-bottom text-lg padding">
+						<view class="text-black text-bold text-center">1、个人经历</view>
+					</view>
+					<view class="article-content">
+						<rich-text :nodes="pyGerenjingli"></rich-text>
+					</view>
+				</view>
+			</view>
+			<!-- 个人经验 -->
+			<view class="solids-bottom padding-xs flex">
+				<view class="flex-sub">
+					<view class="solid-bottom text-lg padding">
+						<view class="text-black text-bold text-center">2、个人经验</view>
+					</view>
+					<view class="article-content">
+						<rich-text :nodes="pyGerenjingyan"></rich-text>
+					</view>
+				</view>
+			</view>
+			<!-- 日记段落内容 -->
 			<view class="solids-bottom padding-xs flex" v-for="(item,index) in postParagraphs" :key="item.id">
 				<view class="flex-sub">
 					<view class="solid-bottom text-lg padding">
-						<view class="text-black text-bold text-center">{{index+1}}：{{item.paragraphId_dictText}}</view>
+						<view class="text-black text-bold text-center">{{index+3}}、{{item.paragraphId_dictText}}</view>
 					</view>
 					<view class="article-content">
 						<rich-text :nodes="htmlNodes[index]"></rich-text>
@@ -40,6 +63,7 @@
 				</view>
 			</view>
 			<!--
+				评论组件
 				@param: commentList展示的评论列表数据
 				@method: clickPraise 点赞评论
 				@method: clickDelete 删除评论
@@ -150,6 +174,8 @@
 				id: undefined, //日记 Id
 				paragraphs: [], //日记段落配置
 				post: {}, //日记
+				pyGerenjingli: '', //个人经历
+				pyGerenjingyan: '', //个人经验
 				postParagraphs: [], //需求日记段落内容,
 				htmlNodes: [], //日记段落内容 html 节点数组
 				hadFollow: false, //是否关注作者
@@ -216,6 +242,14 @@
 					//console.log(res)
 					if (res.data.success) {
 						that.post = res.data.result;
+
+						//查询个人经历和个人经验
+						res = await this.$http.get('/showme/showmeUserext/queryByUserName?username=' + that.post
+							.createBy)
+						if (res.data.success) {
+							that.pyGerenjingli = htmlParser(formatRichTextImgWidth(res.data.result.pyGerenjingli));
+							that.pyGerenjingyan = htmlParser(formatRichTextImgWidth(res.data.result.pyGerenjingyan));
+						}
 
 						//3、查询日记段落
 						res = await that.$http.get('/showme/showmePost/listShowmePostParagraphByMainId?postId=' + that

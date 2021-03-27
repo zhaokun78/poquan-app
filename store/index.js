@@ -13,7 +13,8 @@ export default new Vuex.Store({
     username: '',
     realname: '',
     welcome: '',
-    avatar: ''
+    avatar: '',
+	promotionSpotBalance: '',
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -37,6 +38,7 @@ export default new Vuex.Store({
           if(response.data.code ==200){ 
             const result = response.data.result
             const userInfo = result.userInfo
+			userInfo.userExt = result.userExt
 			uni.setStorageSync(ACCESS_TOKEN,result.token);
 			uni.setStorageSync(USER_INFO,userInfo);
             commit('SET_TOKEN', result.token)
@@ -88,9 +90,10 @@ export default new Vuex.Store({
   },
   getters:{
     token: state => state.token,
-	username: state => {state.userid=uni.getStorageSync(USER_INFO).username; return state.username},
+	username: state => {state.username=uni.getStorageSync(USER_INFO).username; return state.username},
 	nickname: state => {state.userid=uni.getStorageSync(USER_INFO).realname; return state.realname},
 	avatar: state => {state.userid=uni.getStorageSync(USER_INFO).avatar; return state.avatar},
 	userid:state => {state.userid=uni.getStorageSync(USER_INFO).id; return state.userid},
+	promotionSpotBalance:state => {state.promotionSpotBalance=uni.getStorageSync(USER_INFO).userExt.promotionSpotBalance; return state.promotionSpotBalance},
   }
 })

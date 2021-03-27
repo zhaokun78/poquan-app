@@ -21,7 +21,7 @@
 			return {
 				//二维码相关参数
 				modal_qr: false,
-				url: 'http://localhost:3000/user/register?suggested_user=' + this.$store.getters.userid,
+				url: 'http://192.168.68.119:3000/user/register?suggested_user=' + this.$store.getters.userid,
 			}
 		},
 		onLoad() {

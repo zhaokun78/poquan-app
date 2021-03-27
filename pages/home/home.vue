@@ -28,7 +28,7 @@
 						<text class="cuIcon-likefill"></text>
 					</view>
 					<view class="cu-tag line-blue">
-						23
+						{{this.$store.getters.promotionSpotBalance}}
 					</view>
 				</view>
 			</scroll-view>
