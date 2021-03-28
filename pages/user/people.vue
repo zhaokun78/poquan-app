@@ -42,6 +42,13 @@
 						<text class="text-grey">我的推广码</text>
 					</view>
 				</navigator>
+				<navigator url="/pages/user/promo_code" class="cu-item arrow animation-slide-bottom"
+					:style="[{animationDelay: '0.1s'}]">
+					<view class="content">
+						<text class="cuIcon-order text-cyan"></text>
+						<text class="text-grey">订单管理</text>
+					</view>
+				</navigator>
 				<navigator url="/pages/user/userdetail" class="cu-item arrow animation-slide-bottom"
 					:style="[{animationDelay: '0.1s'}]">
 					<view class="content">

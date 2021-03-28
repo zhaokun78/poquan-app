@@ -31,6 +31,10 @@
 					<text class="cuIcon-write"></text>
 					发表日记
 				</button>
+				<button class="cu-btn bg-gradual-purple shadow-blur round" @click="newProduct">
+					<text class="cuIcon-goods"></text>
+					发布商品
+				</button>
 			</view>
 			<view class="cu-list menu sm-border">
 				<navigator v-for="(item, index) in posts" :key="item.id" class="cu-item arrow"
@@ -103,6 +107,15 @@
 			newDiary() {
 				uni.navigateTo({
 					url: '/pages/diary/diaryedit'
+				});
+			},
+
+			/**
+			 * 发布商品
+			 */
+			newProduct() {
+				uni.navigateTo({
+					url: '/pages/product/productedit'
 				});
 			},
 

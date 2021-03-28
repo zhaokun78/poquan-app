@@ -109,6 +109,15 @@
 				<navigator url="/pages/user/user_gerenjingli" class="cu-item arrow animation-slide-bottom"
 					:style="[{animationDelay: '0.1s'}]">
 					<view class="content">
+						<text class="text-grey">地址管理</text>
+					</view>
+				</navigator>
+			</view>
+
+			<view class="cu-list menu">
+				<navigator url="/pages/user/user_gerenjingli" class="cu-item arrow animation-slide-bottom"
+					:style="[{animationDelay: '0.1s'}]">
+					<view class="content">
 						<text class="text-grey">个人经历</text>
 					</view>
 				</navigator>

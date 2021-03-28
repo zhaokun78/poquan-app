@@ -30,7 +30,6 @@
 		//新增日记
 		let ret = await that.$http.post('/showme/showmePost/add', {
 			title: that.title,
-			type: 0,
 			industryCategory: that.industryCategory,
 			state: 0,
 			longitude: longitude,

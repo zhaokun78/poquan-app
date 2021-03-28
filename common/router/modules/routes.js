@@ -37,6 +37,13 @@ const routes = [{
 		},
 	},
 	{
+		path: '/pages/product/productedit',
+		name: 'productedit',
+		meta: {
+			title: '商品编辑',
+		},
+	},
+	{
 		path: '/pages/user/people',
 		name: 'people',
 		meta: {

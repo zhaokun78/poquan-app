@@ -195,6 +195,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/product/productedit",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"mp-alipay": {
@@ -203,7 +212,7 @@
 			"allowsBounceVertical": "NO"
 		},
 		"navigationBarBackgroundColor": "#0081ff",
-		"navigationBarTitleText": "JEECG BOOT",
+		"navigationBarTitleText": "破圈互联",
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "white"
 	},
