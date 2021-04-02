@@ -159,32 +159,27 @@
 				})
 			},
 			insertImage() {
+				let that = this
 				uni.chooseImage({
 					count: 1,
 					success: async (res) => {
 						console.log(res)
 						if (res.tempFilePaths.length > 0) {
-							let filePath = res.tempFilePaths[0]
-
 							//上传图片
-							const result = await uniCloud.uploadFile({
-								filePath: filePath,
-								cloudPath: res.tempFiles[0].name,
-								onUploadProgress: function(progressEvent) {
-									console.log(progressEvent);
-									//var percentCompleted = Math.round(
-									//(progressEvent.loaded * 100) / progressEvent.total
-									//);
-								}
-							});
-							console.log(result)
-							this.editorCtx.insertImage({
-								src: result.fileID,
-								alt: '图像',
-								success: function() {
-									console.log('insert image success')
-								}
+							const result = await that.$http.upload('/sys/common/upload', {
+								filePath: res.tempFilePaths[0],
+								name: 'file'
 							})
+
+							if (result.data.success) {
+								this.editorCtx.insertImage({
+									src: that.$config.staticDomainURL + '/' + result.data.message,
+									alt: '图像',
+									success: function() {
+										console.log('insert image success')
+									}
+								})
+							}
 						}
 					}
 				})
