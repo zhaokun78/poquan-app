@@ -111,6 +111,7 @@
 				}
 			});
 
+			//被收藏
 			this.$http.get('/showme/showmePost/countPostCollectByByPostCreateBy?postCreateBy=' +
 				this.$store.getters.username).then(res => {
 				if (res.data.success) {
@@ -118,6 +119,7 @@
 				}
 			});
 
+			//粉丝
 			this.$http.get('/showme/showmeFollow/countByUserId?userId=' +
 				this.$store.getters.username).then(res => {
 				if (res.data.success) {

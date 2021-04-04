@@ -3,29 +3,28 @@
 		<scroll-view scroll-y class="page">
 			<!-- 头部logo-->
 			<view class="UCenter-bg" @click="remove">
-				<view class="cu-avatar xl round margin-left"
-					style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);">
+				<view class="cu-avatar xl round margin-left" :style="{ backgroundImage:'url(' + avatar + ')' }">
 				</view>
 				<view class="text-xl animation-slide-left" :style="[{animationDelay: '0.2s'}]">
-					{{personalList.username}}
+					{{username}}
 				</view>
 				<image src="/static/wave.gif" mode="scaleToFill" class="gif-wave"></image>
 			</view>
 			<view class="padding flex text-center text-grey bg-white shadow-warp">
 				<view class="flex flex-sub flex-direction solid-right">
-					<view class="text-xl text-orange">32</view>
+					<view class="text-xl text-orange">{{myPraise}}</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-appreciate text-blue"></text>我点赞的
 					</view>
 				</view>
 				<view class="flex flex-sub flex-direction solid-right">
-					<view class="text-xl text-orange">32</view>
+					<view class="text-xl text-orange">{{myCollect}}</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-favor text-blue"></text>我收藏的
 					</view>
 				</view>
 				<view class="flex flex-sub flex-direction">
-					<view class="text-xl text-orange">32</view>
+					<view class="text-xl text-orange">{{myFollow}}</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-friendfamous text-blue"></text>我关注的
 					</view>
@@ -95,18 +94,40 @@
 		name: "people",
 		data() {
 			return {
-				personalList: {
-					avatar: '',
-					realname: '',
-					username: '',
-					post: ''
-				},
-				positionUrl: '/sys/position/list',
-				departUrl: '/sys/user/userDepartList',
-				userUrl: '/sys/user/queryById',
-				userId: '',
-				id: ''
+				avatar: '', //头像
+				username: '', //用户名
+				userUrl: '/sys/user/queryById', //查询用户URL
+				myPraise: 0, //我的点赞数
+				myCollect: 0, //我的收藏数
+				myFollow: 0, //我的关注数
 			};
+		},
+		beforeCreate() {
+			let that = this;
+
+			//我点赞的
+			this.$http.get('/showme/showmePost/countPostPraiseByCreateBy')
+				.then(res => {
+					if (res.data.success) {
+						that.myPraise = res.data.result;
+					}
+				});
+
+			//我收藏的
+			this.$http.get('/showme/showmePost/countPostCollectByCreateBy')
+				.then(res => {
+					if (res.data.success) {
+						that.myCollect = res.data.result;
+					}
+				});
+
+			//我关注的
+			this.$http.get('/showme/showmeFollow/countByCreateBy')
+				.then(res => {
+					if (res.data.success) {
+						that.myFollow = res.data.result;
+					}
+				});
 		},
 		watch: {
 			cur: {
@@ -127,17 +148,16 @@
 						id: this.$store.getters.userid
 					}
 				}).then(res => {
-					console.log("res", res)
 					if (res.data.success) {
 						let perArr = res.data.result
 						let avatar = (perArr.avatar && perArr.avatar.length > 0) ? api.getFileAccessHttpUrl(perArr
 								.avatar) :
 							'/static/avatar_boy.png'
-						this.personalList.avatar = avatar
-						this.personalList.realname = perArr.realname
-						this.personalList.username = perArr.username
-						this.personalList.post = perArr.post
-						this.personalList.depart = perArr.departIds
+						this.avatar = avatar
+						this.realname = perArr.realname
+						this.username = perArr.username
+						this.post = perArr.post
+						this.depart = perArr.departIds
 					}
 				}).catch(err => {
 					console.log(err);
