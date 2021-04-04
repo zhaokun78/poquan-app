@@ -8,19 +8,19 @@
 		<scroll-view scroll-y class="scrollPage">
 			<view class="padding flex text-center text-grey bg-white shadow-warp">
 				<view class="flex flex-sub flex-direction solid-right">
-					<view class="text-xl text-orange">32</view>
+					<view class="text-xl text-orange">{{praised}}</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-appreciatefill"></text> 获赞
 					</view>
 				</view>
 				<view class="flex flex-sub flex-direction solid-right">
-					<view class="text-xl text-blue">20</view>
+					<view class="text-xl text-blue">{{collected}}</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-favorfill"></text> 被收藏
 					</view>
 				</view>
 				<view class="flex flex-sub flex-direction">
-					<view class="text-xl text-green">10</view>
+					<view class="text-xl text-green">{{fans}}</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-friendfill"></text> 粉丝
 					</view>
@@ -94,11 +94,36 @@
 		data() {
 			return {
 				pageNo: 1,
-				posts: []
+				posts: [],
+				praised: 0, //获赞数
+				collected: 0, //被收藏数
+				fans: 0 //粉丝数
 			}
 		},
 		beforeCreate() {
 			loadPost(this);
+
+			//获赞
+			this.$http.get('/showme/showmePost/countPostPraiseByPostCreateBy?postCreateBy=' +
+				this.$store.getters.username).then(res => {
+				if (res.data.success) {
+					this.praised = res.data.result;
+				}
+			});
+
+			this.$http.get('/showme/showmePost/countPostCollectByByPostCreateBy?postCreateBy=' +
+				this.$store.getters.username).then(res => {
+				if (res.data.success) {
+					this.collected = res.data.result;
+				}
+			});
+
+			this.$http.get('/showme/showmeFollow/countByUserId?userId=' +
+				this.$store.getters.username).then(res => {
+				if (res.data.success) {
+					this.fans = res.data.result;
+				}
+			});
 		},
 		methods: {
 			/**
