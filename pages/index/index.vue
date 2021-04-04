@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<home :cur="PageCur" v-if="PageCur=='home'"></home>
+		<shop v-if="PageCur=='shop'"></shop>
 		<people v-if="PageCur=='people'"></people>
 		<message v-if="PageCur=='message'"></message>
 		<diary v-if="PageCur=='diary'"></diary>

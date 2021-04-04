@@ -106,7 +106,7 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator url="/pages/user/user_gerenjingli" class="cu-item arrow animation-slide-bottom"
+				<navigator url="/pages/user/address/address-list/address-list" class="cu-item arrow animation-slide-bottom"
 					:style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="text-grey">地址管理</text>

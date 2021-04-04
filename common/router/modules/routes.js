@@ -23,6 +23,13 @@ const routes = [{
 		},
 	},
 	{
+		path: '/pages/shop/shop',
+		name: 'shop',
+		meta: {
+			title: '商城',
+		},
+	},
+	{
 		path: '/pages/diary/diaryview',
 		name: 'diaryview',
 		meta: {
@@ -41,6 +48,13 @@ const routes = [{
 		name: 'productedit',
 		meta: {
 			title: '商品编辑',
+		},
+	},
+	{
+		path: '/pages/product/productdetail',
+		name: 'productdetail',
+		meta: {
+			title: '商品详情',
 		},
 	},
 	{
@@ -97,6 +111,20 @@ const routes = [{
 		name: 'user_gerenjingyan',
 		meta: {
 			title: '个人经验',
+		},
+	},
+	{
+		path: '/pages/user/address/address-list/address-list',
+		name: 'address-list',
+		meta: {
+			title: '地址管理',
+		},
+	},
+	{
+		path: '/pages/user/address/address-edit/address-edit',
+		name: 'address-edit',
+		meta: {
+			title: '地址编辑',
 		},
 	},
 	{

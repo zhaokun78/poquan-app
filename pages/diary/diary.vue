@@ -8,19 +8,19 @@
 		<scroll-view scroll-y class="scrollPage">
 			<view class="padding flex text-center text-grey bg-white shadow-warp">
 				<view class="flex flex-sub flex-direction solid-right">
-					<view class="text-xxl text-orange">32</view>
+					<view class="text-xl text-orange">32</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-appreciatefill"></text> 获赞
 					</view>
 				</view>
 				<view class="flex flex-sub flex-direction solid-right">
-					<view class="text-xxl text-blue">20</view>
+					<view class="text-xl text-blue">20</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-favorfill"></text> 被收藏
 					</view>
 				</view>
 				<view class="flex flex-sub flex-direction">
-					<view class="text-xxl text-green">10</view>
+					<view class="text-xl text-green">10</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-friendfill"></text> 粉丝
 					</view>
@@ -62,7 +62,7 @@
 	function loadPost(that) {
 		that.$http.get('/showme/showmePost/list', {
 			params: {
-				createBy: 'zhaokun',
+				createBy: that.$store.getters.username,
 				pageNo: that.pageNo,
 				pageSize: 5,
 				column: 'createTime',

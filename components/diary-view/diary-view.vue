@@ -90,41 +90,6 @@
 </template>
 
 <script>
-	/**
-	 * 处理富文本里的图片宽度自适应
-	 * 1.查找img标签有无style属性，如果没有，加上style
-	 * 2.所有标签style后追加 max-width:100% !important;
-	 * 4.去掉<br/>标签
-	 * @param html
-	 * @returns {void|string|*}
-	 */
-	function formatRichTextImgWidth(html) {
-		let newContent = html.replace(/<img[^>]*>/gi, function(match, capture) {
-			//console.log(match.search(/style=/gi));
-
-			if (match.search(/style=/gi) == -1) {
-				match = match.replace(/\<img/gi, '<img style=""');
-			}
-			return match;
-		});
-
-		newContent = newContent.replace(/style="/gi, '$& width:100% !important; height:100% !important; ');
-		newContent = newContent.replace(/<br[^>]*\/>/gi, '');
-		return newContent;
-	}
-
-	//查询是否关注作者
-	async function queryHadFollowSomeOne(that) {
-		that.hadFollow = false;
-
-		let res = await that.$http.get('/showme/showmeFollow/hadFollowSomeOne?userId=' + that.post.createBy);
-		if (res.data.success) {
-			if (res.data.result > 0) {
-				that.hadFollow = true;
-			}
-		}
-	}
-
 	//查询日记点赞数
 	async function queryPostPraise(that) {
 		let res = await that.$http.get('/showme/showmePost/countShowmePostPraiseByMainId?postId=' + that.id);
@@ -166,6 +131,7 @@
 		}
 	}
 
+	import util from '@/common/util/util'
 	import htmlParser from '@/common/html-parser'
 	export default {
 		name: "diary-view",
@@ -247,8 +213,10 @@
 						res = await this.$http.get('/showme/showmeUserext/queryByUserName?username=' + that.post
 							.createBy)
 						if (res.data.success) {
-							that.pyGerenjingli = htmlParser(formatRichTextImgWidth(res.data.result.pyGerenjingli));
-							that.pyGerenjingyan = htmlParser(formatRichTextImgWidth(res.data.result.pyGerenjingyan));
+							that.pyGerenjingli = htmlParser(util.formatRichTextImgWidth(res.data.result
+								.pyGerenjingli));
+							that.pyGerenjingyan = htmlParser(util.formatRichTextImgWidth(res.data.result
+								.pyGerenjingyan));
 						}
 
 						//3、查询日记段落
@@ -262,7 +230,7 @@
 									let p = res.data.result.records.find((r) => r.paragraphId == that.paragraphs[i].id)
 									if (p != undefined) {
 										that.postParagraphs.push(p);
-										that.htmlNodes.push(htmlParser(formatRichTextImgWidth(p.content)))
+										that.htmlNodes.push(htmlParser(util.formatRichTextImgWidth(p.content)))
 									}
 								}
 							}
@@ -271,7 +239,7 @@
 				}
 
 				//查询是否关注作者
-				queryHadFollowSomeOne(this);
+				this.hadFollow = await util.queryHadFollowSomeOne(this.$http, this.post.createBy);
 
 				//查询评论列表
 				loadComments(this);

@@ -20,9 +20,11 @@
 				<view class="cu-item text-green cur">
 					推荐
 				</view>
+				<!--
 				<view class="cu-item">
 					行业
 				</view>
+				-->
 				<view class="cu-capsule round">
 					<view class="cu-tag bg-blue ">
 						<text class="cuIcon-likefill"></text>

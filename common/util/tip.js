@@ -87,7 +87,7 @@ export default class Tips {
   static error(title, onHide) {
     uni.showToast({
       title: title,
-      image: "../../static/error.png",
+      image: "/static/error.png",
       mask: true,
       duration: 1500
     });

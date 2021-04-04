@@ -31,6 +31,9 @@ Vue.prototype.$http = http
 import home from './pages/home/home.vue'
 Vue.component('home', home)
 
+import shop from './pages/shop/shop.vue'
+Vue.component('shop', shop)
+
 import diary from './pages/diary/diary.vue'
 Vue.component('diary', diary)
 

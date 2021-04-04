@@ -13,16 +13,19 @@
 			</view>
 			<view class="padding flex text-center text-grey bg-white shadow-warp">
 				<view class="flex flex-sub flex-direction solid-right">
+					<view class="text-xl text-orange">32</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-appreciate text-blue"></text>我点赞的
 					</view>
 				</view>
 				<view class="flex flex-sub flex-direction solid-right">
+					<view class="text-xl text-orange">32</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-favor text-blue"></text>我收藏的
 					</view>
 				</view>
 				<view class="flex flex-sub flex-direction">
+					<view class="text-xl text-orange">32</view>
 					<view class="margin-top-sm">
 						<text class="cuIcon-friendfamous text-blue"></text>我关注的
 					</view>
@@ -56,12 +59,6 @@
 						<text class="text-grey">个人资料</text>
 					</view>
 				</navigator>
-				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.1s'}]">
-					<view class="content">
-						<text class="cuIcon-vip text-red"></text>
-						<text class="text-grey">会员等级</text>
-					</view>
-				</view>
 				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.3s'}]">
 					<view class="content">
 						<text class="cuIcon-rank text-brown"></text>
