@@ -47,7 +47,7 @@
 				<navigator url="/pages/user/promo_code" class="cu-item arrow animation-slide-bottom"
 					:style="[{animationDelay: '0.1s'}]">
 					<view class="content">
-						<text class="cuIcon-order text-cyan"></text>
+						<text class="cuIcon-goods text-cyan"></text>
 						<text class="text-grey">订单管理</text>
 					</view>
 				</navigator>
@@ -65,16 +65,16 @@
 					</view>
 				</view>
 				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.5s'}]">
-					<navigator class="content" url="/pages/user/userdetail" hover-class="none">
+					<view class="content">
 						<text class="cuIcon-group text-blue"></text>
 						<text class="text-grey">我的团队</text>
-					</navigator>
+					</view>
 				</view>
 				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.7s'}]">
-					<navigator class="content" url="/pages/user/userexit" hover-class="none">
+					<view class="content">
 						<text class="cuIcon-footprint text-orange"></text>
 						<text class="text-grey">城市合伙人</text>
-					</navigator>
+					</view>
 				</view>
 				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.7s'}]">
 					<navigator class="content" url="/pages/user/userexit" hover-class="none">

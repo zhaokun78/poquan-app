@@ -53,6 +53,8 @@
 			</view>
 			-->
 
+			<!-- 更换手机需要接收验证码，不能这么简单就换掉 -->
+			<!--
 			<view class="cu-form-group margin-top">
 				<view class="title">手机号码</view>
 				<input placeholder="输入手机号码" name="input" v-model="myFormData.phone"></input>
@@ -65,6 +67,8 @@
 					</view>
 				</view>
 			</view>
+			-->
+			
 			<view class="cu-form-group">
 				<view class="title">邮箱</view>
 				<input placeholder="输入邮箱" name="input" v-model="myFormData.email"></input>
@@ -137,9 +141,10 @@
 		methods: {
 			onSubmit() {
 				let myForm = this.myFormData
-				let checkPhone = new RegExp(/^[1]([3-9])[0-9]{9}$/);
+				//let checkPhone = new RegExp(/^[1]([3-9])[0-9]{9}$/);
 				let checkEmail = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
 				console.log("myForm", myForm)
+				/*
 				if (!myForm.phone || myForm.phone.length == 0) {
 					this.$tip.alert('请输入手机号');
 					return false
@@ -148,6 +153,7 @@
 					this.$tip.alert('请输入正确的手机号');
 					return false
 				}
+				*/
 				if (!checkEmail.test(myForm.email)) {
 					this.$tip.alert('请输入正确的邮箱地址');
 					return false
