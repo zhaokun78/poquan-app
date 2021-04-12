@@ -107,17 +107,24 @@ const routes = [{
 		},
 	},
 	{
-		path: '/pages/user/user_gerenjingyan',
-		name: 'user_gerenjingyan',
-		meta: {
-			title: '个人经验',
-		},
-	},
-	{
 		path: '/pages/user/address/address-list/address-list',
 		name: 'address-list',
 		meta: {
 			title: '地址管理',
+		},
+	},
+	{
+		path: '/pages/order/order',
+		name: 'order',
+		meta: {
+			title: '订单管理',
+		},
+	},
+	{
+		path: '/pages/order/order_list',
+		name: 'order_list',
+		meta: {
+			title: '订单列表',
 		},
 	},
 	{

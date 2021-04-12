@@ -6,8 +6,8 @@
 		</cu-custom>
 		<form>
 			<view class="cu-form-group">
-				<view class="title">姓名</view>
-				<input placeholder="请输入姓名" name="input" v-model="myFormData.realname"></input>
+				<view class="title">昵称</view>
+				<input placeholder="请输入昵称" name="input" v-model="myFormData.realname"></input>
 			</view>
 			<view class="cu-form-group">
 				<view class="title">用户名</view>

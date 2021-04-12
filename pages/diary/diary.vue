@@ -69,11 +69,11 @@
 				order: 'desc'
 			}
 		}).then(res => {
-			if (res.data.success) {
+			if (res.data.success && res.data.result.total > 0) {
 				if (that.pageNo > res.data.result.pages) {
 					uni.showModal({
 						title: '询问',
-						content: '到头了，是否重新加载？',
+						content: '日记加载完毕，是否重新加载？',
 						success: function(res) {
 							if (res.confirm) {
 								that.pageNo = 1;
@@ -131,10 +131,34 @@
 			/**
 			 * 发表新日记
 			 */
-			newDiary() {
-				uni.navigateTo({
-					url: '/pages/diary/diaryedit'
-				});
+			async newDiary() {
+				//检测个人经历经验是否填写
+				let res = await this.$http.get('/showme/showmeUserext/queryByUserName?username=' + this.$store.getters
+					.username);
+				if (res.data.success) {
+					//同时还要检测是否通过审核，每次修改都需要审核
+					if (res.data.result.pyGerenjingliBiaoti &&
+						res.data.result.pyGerenjingliFengmian &&
+						res.data.result.pyGerenjingli) {
+						//跳转到写日记页面
+						uni.navigateTo({
+							url: '/pages/diary/diaryedit'
+						});
+					} else {
+						uni.showModal({
+							showCancel: true,
+							title: '提示！',
+							content: '请首先到 我的---经历经验 中完善个人经历经验！',
+							success: res => {
+								if (res.confirm) {
+									uni.navigateTo({
+										url: '/pages/user/user_gerenjingli'
+									})
+								}
+							}
+						})
+					}
+				}
 			},
 
 			/**

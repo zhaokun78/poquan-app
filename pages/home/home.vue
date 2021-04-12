@@ -1,6 +1,7 @@
 <template name="home">
 	<view>
 		<view>
+			<!--
 			<view class="cu-bar search bg-white">
 				<view class="search-form round">
 					<text class="cuIcon-search"></text>
@@ -10,6 +11,7 @@
 					<button class="cu-btn bg-green shadow-blur round">搜索</button>
 				</view>
 			</view>
+			-->
 			<scroll-view scroll-x class="bg-white nav text-center">
 				<view class="cu-item">
 					位置
@@ -135,8 +137,7 @@
 			initWebSocket: function() {
 				// WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
 				var userId = this.$store.getters.userid;
-				var url = this.$config.apiUrl.replace("https://", "wss://").replace("http://", "ws://") +
-					"/websocket/" + userId;
+				var url = this.$config.apiUrl.replace("https://", "wss://").replace("http://", "ws://") + "/websocket/" + userId;
 				console.log('websocket url>>' + url);
 				this.websock = new WebSocket(url);
 				this.websock.onopen = this.websocketOnopen;

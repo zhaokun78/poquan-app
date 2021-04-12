@@ -2,11 +2,11 @@
 	<view>
 		<scroll-view scroll-y class="page">
 			<!-- 头部logo-->
-			<view class="UCenter-bg" @click="remove">
+			<view class="UCenter-bg">
 				<view class="cu-avatar xl round margin-left" :style="{ backgroundImage:'url(' + avatar + ')' }">
 				</view>
 				<view class="text-xl animation-slide-left" :style="[{animationDelay: '0.2s'}]">
-					{{username}}
+					{{realname}}
 				</view>
 				<image src="/static/wave.gif" mode="scaleToFill" class="gif-wave"></image>
 			</view>
@@ -34,7 +34,7 @@
 				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="cuIcon-explore text-green"></text>
-						<text class="text-grey">操作指引</text>
+						<text class="text-grey">精准推广说明</text>
 					</view>
 				</view>
 				<navigator url="/pages/user/promo_code" class="cu-item arrow animation-slide-bottom"
@@ -44,7 +44,7 @@
 						<text class="text-grey">我的推广码</text>
 					</view>
 				</navigator>
-				<navigator url="/pages/user/promo_code" class="cu-item arrow animation-slide-bottom"
+				<navigator url="/pages/order/order" class="cu-item arrow animation-slide-bottom"
 					:style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="cuIcon-goods text-cyan"></text>
@@ -70,12 +70,13 @@
 						<text class="text-grey">我的团队</text>
 					</view>
 				</view>
-				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.7s'}]">
+				<navigator url="/pages/user/user_gerenjingli" class="cu-item arrow animation-slide-bottom"
+					:style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="cuIcon-footprint text-orange"></text>
-						<text class="text-grey">城市合伙人</text>
+						<text class="text-grey">经历经验</text>
 					</view>
-				</view>
+				</navigator>
 				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.7s'}]">
 					<navigator class="content" url="/pages/user/userexit" hover-class="none">
 						<text class="cuIcon-exit text-black"></text>
@@ -96,6 +97,7 @@
 			return {
 				avatar: '', //头像
 				username: '', //用户名
+				realname: '', //昵称
 				userUrl: '/sys/user/queryById', //查询用户URL
 				myPraise: 0, //我的点赞数
 				myCollect: 0, //我的收藏数
@@ -140,7 +142,10 @@
 		},
 		methods: {
 			remove() {
-				uni.removeStorageSync('Access-Token')
+				uni.removeStorageSync('Access-Token');
+				uni.navigateTo({
+					url: '/pages/common/exit'
+				});
 			},
 			load() {
 				this.$http.get(this.userUrl, {

@@ -33,17 +33,19 @@
 				</view>
 			</view>
 		</view>
-		<good-action></good-action>
+		<view class="malldetail-buy">
+			<text class="malldetail-now-buy" @click="pay">立即购买</text>
+		</view>
 	</view>
 </template>
 
 <script>
 	import util from '@/common/util/util'
 	import htmlParser from '@/common/html-parser'
-	import goodAction from '@/components/goods/good-action.vue'
+	//import goodAction from '@/components/goods/good-action.vue'
 	export default {
 		components: {
-			goodAction,
+			//goodAction,
 		},
 		data() {
 			return {
@@ -61,10 +63,78 @@
 			}
 		},
 		methods: {
+			async pay() {
+				this.$tip.toast('开发中...');
+				return;
+				
+				let res = await uniCloud.callFunction({
+					name: 'pay',
+					data: {
+						provider: 'alipay',
+						outTradeNo: '1378923740491640830'
+					}
+				});
 
+				uni.showModal({
+					title: 'cloud function',
+					content: JSON.stringify(res),
+					showCancel: false
+				});
+
+				if (res.result.orderInfo) {
+					uni.requestPayment({
+						provider: 'alipay',
+						orderInfo: res.result.orderInfo,
+						success() {
+							this.$tip.success('支付成功');
+						},
+						fail() {
+							this.$tip.success('支付失败');
+						}
+					})
+				}
+			}
 		}
 	}
 </script>
 
 <style>
+	.malldetail-buy {
+		position: fixed;
+		bottom: 0upx;
+		left: 0upx;
+		right: 0upx;
+		border-color: #cccccc;
+		background-color: #ffffff;
+		border-top-width: 0.5upx;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	.malldetail-shopcart-img {
+		width: 50upx;
+		height: 50upx;
+		margin: 0upx 50upx 0upx 33upx;
+	}
+
+	.malldetail-star-img {
+		width: 50upx;
+		height: 50upx;
+		margin: 0upx 33.3upx 0upx 0upx;
+	}
+
+	.malldetail-shopcart-add {
+		padding: 25upx 56upx;
+		background-color: #ffb700;
+		font-size: 31.3upx;
+		color: #ffffff;
+	}
+
+	.malldetail-now-buy {
+		padding: 25upx 68upx;
+		background-color: #ff7500;
+		font-size: 31.3upx;
+		color: #ffffff;
+	}
 </style>

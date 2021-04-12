@@ -1,7 +1,7 @@
 <template>
 	<view class="cu-card dynamic">
 		<view class="cu-item shadow">
-			<view class="text-black text-bold text-left text-sl">{{post.title}}</view>
+			<view class="text-black text-bold text-left text-xl">{{post.title}}</view>
 			<view class="text-gray text-left text-sm">{{post.industryCategory}}</view>
 			<view class="cu-list menu-avatar">
 				<view class="cu-item">
@@ -29,33 +29,29 @@
 					</view>
 				</view>
 			</view>
-			<!-- 个人经历 -->
-			<view class="solids-bottom padding-xs flex">
-				<view class="flex-sub">
-					<view class="solid-bottom text-lg padding">
-						<view class="text-black text-bold text-center">1、个人经历</view>
-					</view>
-					<view class="article-content">
-						<rich-text :nodes="pyGerenjingli"></rich-text>
-					</view>
+			<!-- 个人经历/经验 -->
+			<!-- <view class="solids-bottom padding-xs flex"> -->
+			<view class="flex-sub">
+				<view class="solid-bottom text-lg padding">
+					<view class="text-black text-bold text-center">{{pyGerenjingliBiaoti}}</view>
 				</view>
-			</view>
-			<!-- 个人经验 -->
-			<view class="solids-bottom padding-xs flex">
-				<view class="flex-sub">
-					<view class="solid-bottom text-lg padding">
-						<view class="text-black text-bold text-center">2、个人经验</view>
-					</view>
-					<view class="article-content">
-						<rich-text :nodes="pyGerenjingyan"></rich-text>
-					</view>
+				<view class="article-content">
+					<rich-text :nodes="pyGerenjingliFengmian"></rich-text>
 				</view>
+				<uni-collapse accordion="true">
+					<uni-collapse-item title="展开完整内容">
+						<view class="article-content">
+							<rich-text :nodes="pyGerenjingli"></rich-text>
+						</view>
+					</uni-collapse-item>
+				</uni-collapse>
 			</view>
+			<!-- </view> -->
 			<!-- 日记段落内容 -->
 			<view class="solids-bottom padding-xs flex" v-for="(item,index) in postParagraphs" :key="item.id">
 				<view class="flex-sub">
 					<view class="solid-bottom text-lg padding">
-						<view class="text-black text-bold text-center">{{index+3}}、{{item.paragraphId_dictText}}</view>
+						<view class="text-black text-bold text-center">{{item.paragraphName}}</view>
 					</view>
 					<view class="article-content">
 						<rich-text :nodes="htmlNodes[index]"></rich-text>
@@ -140,8 +136,9 @@
 				id: undefined, //日记 Id
 				paragraphs: [], //日记段落配置
 				post: {}, //日记
-				pyGerenjingli: '', //个人经历
-				pyGerenjingyan: '', //个人经验
+				pyGerenjingliBiaoti: '', //经历经验标题
+				pyGerenjingliFengmian: '', //经历经验封面
+				pyGerenjingli: '', //经历经验内容
 				postParagraphs: [], //需求日记段落内容,
 				htmlNodes: [], //日记段落内容 html 节点数组
 				hadFollow: false, //是否关注作者
@@ -209,14 +206,19 @@
 					if (res.data.success) {
 						that.post = res.data.result;
 
-						//查询个人经历和个人经验
+						//查询经历经验
 						res = await this.$http.get('/showme/showmeUserext/queryByUserName?username=' + that.post
 							.createBy)
 						if (res.data.success) {
-							that.pyGerenjingli = htmlParser(util.formatRichTextImgWidth(res.data.result
-								.pyGerenjingli));
-							that.pyGerenjingyan = htmlParser(util.formatRichTextImgWidth(res.data.result
-								.pyGerenjingyan));
+							that.pyGerenjingliBiaoti = res.data.result.pyGerenjingliBiaoti;
+							if (res.data.result.pyGerenjingliFengmian) {
+								that.pyGerenjingliFengmian = htmlParser(util.formatRichTextImgWidth(res.data.result
+									.pyGerenjingliFengmian));
+							}
+							if (res.data.result.pyGerenjingli) {
+								that.pyGerenjingli = htmlParser(util.formatRichTextImgWidth(res.data.result
+									.pyGerenjingli));
+							}
 						}
 
 						//3、查询日记段落
@@ -229,6 +231,7 @@
 								if (that.paragraphs[i].enable == 1) {
 									let p = res.data.result.records.find((r) => r.paragraphId == that.paragraphs[i].id)
 									if (p != undefined) {
+										p.paragraphName = that.paragraphs[i].name;
 										that.postParagraphs.push(p);
 										that.htmlNodes.push(htmlParser(util.formatRichTextImgWidth(p.content)))
 									}
@@ -271,7 +274,7 @@
 			async clickFollow() {
 				let ret = await this.$http.put('/showme/showmeFollow/attentionOrCancel?userId=' + this.post.createBy);
 				if (ret.data.success) {
-					queryHadFollowSomeOne(this);
+					this.hadFollow = await util.queryHadFollowSomeOne(this.$http, this.post.createBy);
 				}
 			},
 

@@ -3,6 +3,19 @@
 		<view class="container">
 			<view class="page-body">
 				<view class='wrapper'>
+					<view class="flex solid-bottom padding justify-center">
+						<button class="padding-sm margin-xs cu-btn round bg-green" @click="insertImage">
+							<text class="cuIcon-pic">插入图片</text>
+						</button>
+						<button class="padding-sm margin-xs cu-btn round bg-green" @click="insertVideo">
+							<text class="cuIcon-video">插入视频</text>
+						</button>
+						<button class="padding-sm margin-xs cu-btn round bg-green" @click="startLiveShow">
+							<text class="cuIcon-people">开始直播</text>
+						</button>
+					</view>
+
+					<!--
 					<view class='toolbar' @tap="format" style="height: 120px;overflow-y: auto;">
 						<view :class="formats.bold ? 'ql-active' : ''" class="iconfont icon-zitijiacu" data-name="bold">
 						</view>
@@ -66,6 +79,7 @@
 						<view :class="formats.direction === 'rtl' ? 'ql-active' : ''"
 							class="iconfont icon-direction-rtl" data-name="direction" data-value="rtl"></view>
 					</view>
+					-->
 
 					<view class="editor-wrapper">
 						<editor :id="editorId" class="ql-container" placeholder="开始输入..." showImgSize showImgToolbar
@@ -166,14 +180,16 @@
 						console.log(res)
 						if (res.tempFilePaths.length > 0) {
 							//上传图片
-							const result = await that.$http.upload('/sys/common/upload', {
-								filePath: res.tempFilePaths[0],
-								name: 'file'
-							})
+							const result = await that.$http.upload(
+								'/sys/common/upload', {
+									filePath: res.tempFilePaths[0],
+									name: 'file'
+								})
 
 							if (result.data.success) {
 								this.editorCtx.insertImage({
-									src: that.$config.staticDomainURL + '/' + result.data.message,
+									src: that.$config.staticDomainURL + '/' +
+										result.data.message,
 									alt: '图像',
 									success: function() {
 										console.log('insert image success')
@@ -183,6 +199,12 @@
 						}
 					}
 				})
+			},
+			insertVideo() {
+				this.$tip.toast('敬请期待！');
+			},
+			startLiveShow() {
+				this.$tip.toast('敬请期待！');
 			}
 		}
 	}

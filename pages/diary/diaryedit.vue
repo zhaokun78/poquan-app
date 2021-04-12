@@ -11,8 +11,13 @@
 				<input v-model="title" placeholder="输入日记标题">
 			</view>
 			<view class="cu-form-group">
-				<view class="title">行业分类</view>
-				<input v-model="industryCategory" placeholder="输入行业分类">
+				<view class="title">分类</view>
+				<picker v-if="diaryCategoryList.length>0" @change="PickerChange" :range="diaryCategoryList"
+					range-key="name" :value="diaryCategoryIndex">
+					<view class="picker">
+						{{diaryCategoryList[diaryCategoryIndex].name}}
+					</view>
+				</picker>
 			</view>
 			<uni-collapse accordion="true">
 				<uni-collapse-item v-for="(item, index) in postParagraph" :key="item.id" :title="item.name">
@@ -30,7 +35,7 @@
 		//新增日记
 		let ret = await that.$http.post('/showme/showmePost/add', {
 			title: that.title,
-			industryCategory: that.industryCategory,
+			industryCategory: that.diaryCategoryList[that.diaryCategoryIndex].name,
 			state: 0,
 			longitude: longitude,
 			latitude: latitude
@@ -63,7 +68,7 @@
 						that.isBusy = false;
 						uni.navigateBack({
 							delta: 1
-						});
+						})
 					}
 				}
 			});
@@ -78,7 +83,8 @@
 		data() {
 			return {
 				title: '', //日记标题
-				industryCategory: '', //行业分类
+				diaryCategoryList: [], //日记分类数组
+				diaryCategoryIndex: 0, //当前选择的日记分类索引
 				postParagraph: [], //日记段落内容 HTML
 				isBusy: false //为 true 代表正在发送请求
 			}
@@ -88,11 +94,6 @@
 				//检测必填项
 				if (this.title.trim() == '') {
 					this.$tip.error('请填写标题！');
-					return;
-				}
-
-				if (this.industryCategory.trim() == '') {
-					this.$tip.error('请填写行业分类！');
 					return;
 				}
 
@@ -120,12 +121,19 @@
 						newDiary(that);
 					}
 				});
+			},
+			PickerChange(e) {
+				this.diaryCategoryIndex = e.detail.value;
 			}
 		},
 		async onLoad() {
 			let res = await this.$http.get('/showme/showmeParagraph/list?pageNo=1&pageSize=50');
 			if (res.data.success) {
 				this.postParagraph = res.data.result.records;
+			}
+			res = await this.$http.get('/showme/showmeDiaryCategory/list?pageNo=1&pageSize=50');
+			if (res.data.success) {
+				this.diaryCategoryList = res.data.result.records;
 			}
 		},
 	}

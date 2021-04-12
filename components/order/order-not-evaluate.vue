@@ -1,13 +1,13 @@
 <template>
-	<view class="goos_container">
-		<view v-for="(item,index) in list" :key='index' class="goos_lists">
+	<view class="goods_container">
+		<view v-for="(item,index) in list" :key='index' class="goods_lists">
 			<view class="space_between align_items_center">
 				<view class="time_clock flex_row ">
 					<image class="clock_image" src="/static/order/clock.png"></image> 
 					<text class="goods_time">2018-11-28 17:15:20</text>
 				</view>
 			</view>
-			<view @click="goToPage(item)" class="sigle_goos_list">
+			<view @click="goToPage(item)" class="sigle_goods_list">
 				<view class="image_contaner">
 					<image class="goods_image" :src="item.image"></image>
 				</view>
@@ -50,13 +50,13 @@
 	}
 </script>
 <style lang="scss">
-	.goos_container {
+	.goods_container {
 		display: flex;
 		flex-direction: column;
 		padding-bottom: 50upx;
 	}
 
-	.goos_lists {
+	.goods_lists {
 		display: flex;
 		flex-direction: column;
 	}
@@ -91,7 +91,7 @@
 		margin-left: 15.9upx;
 	}
 
-	.sigle_goos_list {
+	.sigle_goods_list {
 		display: flex;
 		padding-bottom: 26upx;
 	}

@@ -4,7 +4,7 @@
 		<!-- <image v-if="!isCollect" class="malldetail-star-img" src="/static/goods/star.png" @click="collection('true')"></image>
 		<image v-else class="malldetail-star-img" src="/static/goods/star-success.png" @click="collection('false')"></image> -->
 		<!-- <text class="malldetail-shopcart-add" @click="addCart">加入购物车</text> -->
-		<text class="malldetail-now-buy" @click="nowBuy">立即购买</text>
+		<text class="malldetail-now-buy" @click.stop="nowBuy">立即购买</text>
 	</view>
 </template>
 
@@ -26,7 +26,7 @@
 
 			},
 			nowBuy() {
-
+				console.log('nowBuy');
 			}
 		}
 	}

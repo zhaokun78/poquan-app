@@ -17,7 +17,7 @@
 				精准推广
 			</view>
 			<view :class="PageCur=='diary'?'action text-green':'action text-gray'" @click="NavChange" data-cur="diary">
-				<view class='cuIcon-writefill'></view>需求日记
+				<view class='cuIcon-writefill'></view>发布内容
 			</view>
 			<!--
 			<view :class="PageCur=='message'?'action text-green':'action text-gray'" @click="NavChange" data-cur="message">

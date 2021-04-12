@@ -20,7 +20,7 @@
 				</view>
 				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.2s'}]">
 					<view class="content">
-						<text class="text-grey">姓名</text>
+						<text class="text-grey">昵称</text>
 					</view>
 					<view class="action">
 						<text class="text-grey">{{personalMsg.realname}}</text>
@@ -106,25 +106,10 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator url="/pages/user/address/address-list/address-list" class="cu-item arrow animation-slide-bottom"
-					:style="[{animationDelay: '0.1s'}]">
+				<navigator url="/pages/user/address/address-list/address-list"
+					class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="text-grey">地址管理</text>
-					</view>
-				</navigator>
-			</view>
-
-			<view class="cu-list menu">
-				<navigator url="/pages/user/user_gerenjingli" class="cu-item arrow animation-slide-bottom"
-					:style="[{animationDelay: '0.1s'}]">
-					<view class="content">
-						<text class="text-grey">个人经历</text>
-					</view>
-				</navigator>
-				<navigator url="/pages/user/user_gerenjingyan" class="cu-item arrow animation-slide-bottom"
-					:style="[{animationDelay: '0.1s'}]">
-					<view class="content">
-						<text class="text-grey">个人经验</text>
 					</view>
 				</navigator>
 			</view>
@@ -224,7 +209,13 @@
 						this.personalMsg.realname = result.realname
 						this.personalMsg.username = result.username
 						this.personalMsg.post = result.post
-						this.personalMsg.sex = result.sex === 1 ? '男' : '女'
+						if (result.sex === 1) {
+							this.personalMsg.sex = '男';
+						} else if (result.sex === 2) {
+							this.personalMsg.sex = '女';
+						} else {
+							this.personalMsg.sex = '保密';
+						}
 						this.personalMsg.birthday = result.birthday == null ? '无' : result.birthday
 						this.personalMsg.departIds = result.departIds
 						this.personalMsg.workNo = result.workNo

@@ -15,7 +15,7 @@
 					<view class="title_size flex_column">
 						<text class="goods_title">{{item.productName}}</text>
 					</view>
-					<view class="money_amount flex_column">
+					<view class="money_amount  flex_column">
 						<text class="goods_money">￥{{item.productPrice}}</text>
 					</view>
 				</view>
@@ -23,12 +23,11 @@
 			<view class="separate_line"></view>
 			<view class="bottom_amount_money">
 				<text class="_amount">共1件商品</text>
-				<text class="need_pay"> 实付款 ：</text>
+				<text class="need_pay">已付款 ：</text>
 				<text class="_money">￥{{item.productPrice}}</text>
 			</view>
-			<view v-if="item.who==='buyer'" class="state_btn">
-				<text class="_btn" style="margin-right: 20rpx;">去评价</text>
-				<text class="_btn">再次购买</text>
+			<view v-if="item.who==='seller'" class="state_btn">
+				<text class="_btn" @click="ok">去发货</text>
 			</view>
 			<view v-show="index !== list.length-1" class="separate"></view>
 		</view>
@@ -36,7 +35,7 @@
 </template>
 <script>
 	export default {
-		name: 'order-done',
+		name: 'order-not-delivery',
 		props: {
 			list: {
 				type: Array,
@@ -92,8 +91,9 @@
 	}
 
 	.delete_image {
-		width: 33upx;
-		height: 33upx;
+		width: 50upx;
+		height: 50upx;
+		margin-top: 15upx;
 		margin-left: 15.9upx;
 	}
 
@@ -112,6 +112,7 @@
 		width: 133.3upx;
 		height: 133.3upx;
 		border-radius: 8upx;
+		resize-mode: stretch;
 	}
 
 	.goods_description {
@@ -163,8 +164,8 @@
 	}
 
 	.bottom_amount_money {
-		width: 100%;
 		display: flex;
+		width: 100%;
 		justify-content: flex-end;
 		margin-top: 30upx;
 	}
@@ -212,6 +213,11 @@
 		margin-top: 23.3upx;
 		margin-left: -33upx;
 		margin-right: -33upx;
+	}
+
+	.align_items_center {
+		display: flex;
+		align-items: center;
 	}
 
 	.justify_content_center {
