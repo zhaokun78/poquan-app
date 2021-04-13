@@ -87,44 +87,47 @@
 
 <script>
 	//查询日记点赞数
-	async function queryPostPraise(that) {
-		let res = await that.$http.get('/showme/showmePost/countShowmePostPraiseByMainId?postId=' + that.id);
-		if (res.data.success) {
-			that.praiseCount = res.data.result.praiseCount;
-			that.curUserPraised = res.data.result.curUserPraised
-		}
+	function queryPostPraise(that) {
+		that.$http.get('/showme/showmePost/countShowmePostPraiseByMainId?postId=' + that.post.id).then(res => {
+			if (res.data.success) {
+				that.praiseCount = res.data.result.praiseCount;
+				that.curUserPraised = res.data.result.curUserPraised
+			}
+		});
 	}
 
 	//查询日记收藏数
-	async function queryPostCollect(that) {
-		let res = await that.$http.get('/showme/showmePost/countShowmePostCollectByMainId?postId=' + that.id);
-		if (res.data.success) {
-			that.collectCount = res.data.result.collectCount;
-			that.curUserCollected = res.data.result.curUserCollected;
-		}
+	function queryPostCollect(that) {
+		that.$http.get('/showme/showmePost/countShowmePostCollectByMainId?postId=' + that.post.id).then(res => {
+			if (res.data.success) {
+				that.collectCount = res.data.result.collectCount;
+				that.curUserCollected = res.data.result.curUserCollected;
+			}
+		})
 	}
 
 	//查询评论列表
-	async function loadComments(that) {
-		let res = await that.$http.get('/showme/showmePost/listShowmeCommentByPostId?postId=' + that.id +
-			'&column=createTime&order=desc');
-		if (res.data.success) {
-			that.commentList = [];
-			for (let i = 0; i < res.data.result.length; i++) {
-				that.commentList.push({
-					"COMMENT_TIME": res.data.result[i].createTime,
-					"FIRSTNICKNAME": res.data.result[i].createBy,
-					"IS_PRAISE": res.data.result[i].myPraiseCount > 0 ? true : false,
-					"TAG": res.data.result[i].createBy == that.post.createBy ? '作者' : '',
-					"COMMENT": res.data.result[i].content,
-					"PRAISE_NUM": res.data.result[i].praiseCount,
-					"CANDELETE": 1,
-					"HEADIMGURL": "http://pic1.zhimg.com/50/v2-e88c0426c1ccc429dbedea3d01e5fac2_hd.jpg",
-					"PARENTID": res.data.result[i].id,
-					"SECONDNICKNAME": null
-				})
+	function loadComments(that) {
+		that.$http.get('/showme/showmePost/listShowmeCommentByPostId?postId=' + that.post.id +
+			'&column=createTime&order=desc').then(res => {
+			if (res.data.success) {
+				that.commentList = [];
+				for (let i = 0; i < res.data.result.length; i++) {
+					that.commentList.push({
+						"COMMENT_TIME": res.data.result[i].createTime,
+						"FIRSTNICKNAME": res.data.result[i].createBy,
+						"IS_PRAISE": res.data.result[i].myPraiseCount > 0 ? true : false,
+						"TAG": res.data.result[i].createBy == that.post.createBy ? '作者' : '',
+						"COMMENT": res.data.result[i].content,
+						"PRAISE_NUM": res.data.result[i].praiseCount,
+						"CANDELETE": 1,
+						"HEADIMGURL": "http://pic1.zhimg.com/50/v2-e88c0426c1ccc429dbedea3d01e5fac2_hd.jpg",
+						"PARENTID": res.data.result[i].id,
+						"SECONDNICKNAME": null
+					})
+				}
 			}
-		}
+		})
 	}
 
 	import util from '@/common/util/util'
@@ -133,9 +136,7 @@
 		name: "diary-view",
 		data() {
 			return {
-				id: undefined, //日记 Id
 				paragraphs: [], //日记段落配置
-				post: {}, //日记
 				pyGerenjingliBiaoti: '', //经历经验标题
 				pyGerenjingliFengmian: '', //经历经验封面
 				pyGerenjingli: '', //经历经验内容
@@ -149,26 +150,25 @@
 				curUserCollected: false, //当前登录用户是否收藏
 			};
 		},
-		props: ['postId'],
+		props: ['post'], //日记对象，由外界传入
 		watch: {
-			postId(n, o) { //n为新值,o为旧值;
+			post(n, o) { //n为新值,o为旧值;
 				console.log(n, o);
-				this.id = n;
+				this.post = n;
 				this.reloadPost();
 			}
 		},
 		beforeCreate: function() {
 			//console.log('beforeCreate')
 		},
-		created: async function() {
+		created: function() {
 			//console.log('created')
 		},
 		beforeMount: function() {
 			//console.log('beforeMount')
 		},
 		mounted: function() {
-			//console.log('mounted')
-			this.id = this.postId
+			console.log('mounted')
 			this.reloadPost()
 		},
 		beforeUpdate: function() {
@@ -184,7 +184,7 @@
 			async reloadPost() {
 				let that = this
 				that.paragraphs = [];
-				that.post = {};
+				//that.post = {};
 				that.postParagraphs = [];
 				that.htmlNodes = [];
 				that.hadFollow = false;
@@ -196,62 +196,58 @@
 
 				//1、查询段落配置
 				let res = await that.$http.get('/showme/showmeParagraph/list?pageNo=1&pageSize=50');
-				//console.log(res)
 				if (res.data.success) {
 					that.paragraphs = res.data.result.records;
 
-					//2、查询日记
-					res = await that.$http.get('/showme/showmePost/queryById?id=' + that.id);
-					//console.log(res)
-					if (res.data.success) {
-						that.post = res.data.result;
-
-						//查询经历经验
-						res = await this.$http.get('/showme/showmeUserext/queryByUserName?username=' + that.post
-							.createBy)
-						if (res.data.success) {
-							that.pyGerenjingliBiaoti = res.data.result.pyGerenjingliBiaoti;
-							if (res.data.result.pyGerenjingliFengmian) {
-								that.pyGerenjingliFengmian = htmlParser(util.formatRichTextImgWidth(res.data.result
-									.pyGerenjingliFengmian));
+					//查询经历经验
+					this.$http.get('/showme/showmeUserext/queryByUserName?username=' + that.post.createBy).then(
+						res => {
+							if (res.data.success) {
+								that.pyGerenjingliBiaoti = res.data.result.pyGerenjingliBiaoti;
+								if (res.data.result.pyGerenjingliFengmian) {
+									that.pyGerenjingliFengmian = htmlParser(util.formatRichTextImgWidth(res
+										.data.result
+										.pyGerenjingliFengmian));
+								}
+								if (res.data.result.pyGerenjingli) {
+									that.pyGerenjingli = htmlParser(util.formatRichTextImgWidth(res.data.result
+										.pyGerenjingli));
+								}
 							}
-							if (res.data.result.pyGerenjingli) {
-								that.pyGerenjingli = htmlParser(util.formatRichTextImgWidth(res.data.result
-									.pyGerenjingli));
-							}
-						}
+						})
 
-						//3、查询日记段落
-						res = await that.$http.get('/showme/showmePost/listShowmePostParagraphByMainId?postId=' + that
-							.id);
-						//console.log(res)
-						if (res.data.success) {
-							//4、根据生效的段落配置筛选日记段落	
-							for (let i = 0; i < that.paragraphs.length; i++) {
-								if (that.paragraphs[i].enable == 1) {
-									let p = res.data.result.records.find((r) => r.paragraphId == that.paragraphs[i].id)
-									if (p != undefined) {
-										p.paragraphName = that.paragraphs[i].name;
-										that.postParagraphs.push(p);
-										that.htmlNodes.push(htmlParser(util.formatRichTextImgWidth(p.content)))
+					//3、查询日记段落
+					that.$http.get('/showme/showmePost/listShowmePostParagraphByMainId?postId=' + that.post.id).then(
+						res => {
+							if (res.data.success) {
+								//4、根据生效的段落配置筛选日记段落	
+								for (let i = 0; i < that.paragraphs.length; i++) {
+									if (that.paragraphs[i].enable == 1) {
+										let p = res.data.result.records.find((r) => r.paragraphId == that
+											.paragraphs[i].id)
+										if (p != undefined) {
+											p.paragraphName = that.paragraphs[i].name;
+											that.postParagraphs.push(p);
+											that.htmlNodes.push(htmlParser(util.formatRichTextImgWidth(p
+												.content)))
+										}
 									}
 								}
 							}
-						}
-					}
+						})
+
+					//查询评论列表
+					loadComments(this);
+
+					//查询日记点赞数
+					queryPostPraise(this);
+
+					//查询日记收藏数
+					queryPostCollect(this);
+
+					//查询是否关注作者
+					this.hadFollow = await util.queryHadFollowSomeOne(this.$http, this.post.createBy);
 				}
-
-				//查询是否关注作者
-				this.hadFollow = await util.queryHadFollowSomeOne(this.$http, this.post.createBy);
-
-				//查询评论列表
-				loadComments(this);
-
-				//查询日记点赞数
-				queryPostPraise(this);
-
-				//查询日记收藏数
-				queryPostCollect(this);
 			},
 
 			/**
@@ -259,7 +255,7 @@
 			 */
 			async sendComment(e) {
 				let ret = await this.$http.post('/showme/showmePost/addShowmeComment', {
-					postId: this.id,
+					postId: this.post.id,
 					content: e.detail.value
 				})
 				uni.hideKeyboard();
@@ -282,7 +278,7 @@
 			 * 点击点赞/取消点赞按钮
 			 */
 			async clickPraise() {
-				let ret = await this.$http.put('/showme/showmePost/praiseOrCancel?postId=' + this.id);
+				let ret = await this.$http.put('/showme/showmePost/praiseOrCancel?postId=' + this.post.id);
 				if (ret.data.success) {
 					queryPostPraise(this);
 				}
@@ -292,7 +288,7 @@
 			 * 点击收藏/取消收藏按钮
 			 */
 			async clickCollect() {
-				let ret = await this.$http.put('/showme/showmePost/collectOrCancel?postId=' + this.id);
+				let ret = await this.$http.put('/showme/showmePost/collectOrCancel?postId=' + this.post.id);
 				if (ret.data.success) {
 					queryPostCollect(this);
 				}

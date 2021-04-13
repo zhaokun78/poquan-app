@@ -1,63 +1,56 @@
 <template name="home">
 	<view>
-		<view>
+		<!--
+		<view class="cu-bar search bg-white">
+			<view class="search-form round">
+				<text class="cuIcon-search"></text>
+				<input type="text" placeholder="搜索你感兴趣的内容" confirm-type="search"></input>
+			</view>
+			<view class="action">
+				<button class="cu-btn bg-green shadow-blur round">搜索</button>
+			</view>
+		</view>
+		-->
+		<scroll-view scroll-x class="bg-white nav text-center">
+			<view class="cu-item">
+				位置
+			</view>
+			<view class="cu-item">
+				关注
+			</view>
+			<view class="cu-item text-green cur">
+				推荐
+			</view>
 			<!--
-			<view class="cu-bar search bg-white">
-				<view class="search-form round">
-					<text class="cuIcon-search"></text>
-					<input type="text" placeholder="搜索你感兴趣的内容" confirm-type="search"></input>
-				</view>
-				<view class="action">
-					<button class="cu-btn bg-green shadow-blur round">搜索</button>
-				</view>
+			<view class="cu-item">
+				行业
 			</view>
 			-->
-			<scroll-view scroll-x class="bg-white nav text-center">
-				<view class="cu-item">
-					位置
+			<view class="cu-capsule round">
+				<view class="cu-tag bg-blue ">
+					<text class="cuIcon-likefill"></text>
 				</view>
-				<view class="cu-item">
-					关注
+				<view class="cu-tag line-blue">
+					{{this.$store.getters.promotionSpotBalance}}
 				</view>
-				<view class="cu-item text-green cur">
-					推荐
-				</view>
-				<!--
-				<view class="cu-item">
-					行业
-				</view>
-				-->
-				<view class="cu-capsule round">
-					<view class="cu-tag bg-blue ">
-						<text class="cuIcon-likefill"></text>
-					</view>
-					<view class="cu-tag line-blue">
-						{{this.$store.getters.promotionSpotBalance}}
-					</view>
-				</view>
-			</scroll-view>
-		</view>
+			</view>
+		</scroll-view>
 
 		<swiper :current="1" :circular="true" @change="swiperChange" style="height:5000px;">
 			<swiper-item>
-				<diary-view v-if="post_0_id!=undefined" :postId='post_0_id'></diary-view>
+				<diary-view v-if="post_0!=undefined" :post='post_0'></diary-view>
 			</swiper-item>
 			<swiper-item>
-				<diary-view v-if="post_1_id!=undefined" :postId='post_1_id'></diary-view>
+				<diary-view v-if="post_1!=undefined" :post='post_1'></diary-view>
 			</swiper-item>
 			<swiper-item>
-				<diary-view v-if="post_2_id!=undefined" :postId='post_2_id'></diary-view>
+				<diary-view v-if="post_2!=undefined" :post='post_2'></diary-view>
 			</swiper-item>
 		</swiper>
 	</view>
 </template>
 
 <script>
-	import {
-		us,
-		os
-	} from '@/common/util/work.js'
-
 	/**
 	 * 加载推荐文章
 	 */
@@ -84,49 +77,80 @@
 		},
 		data() {
 			return {
-				pages: 0, //日记分页总页数
+				pages: 0, //日记分页总页数（目前每页加载一条，因此总页数也就相当于总条数）
 				pageNo: 1, //日记分页当前页数
 				pageSize: 1, //日记分页每页条数
+				currentSwiperIndex: 1, //当前所在滑块的 index
 				websock: '',
 				heartCheck: null,
 				lockReconnect: false,
 				msgCount: 0,
-				post_0_id: undefined,
-				post_1_id: undefined,
-				post_2_id: undefined,
+				post_0: undefined,
+				post_1: undefined,
+				post_2: undefined,
 			}
 		},
 		beforeCreate: async function(e) {
+			console.log('home-beforeCreate')
 			this.pageNo = 1;
 			this.pageSize = 1;
 			let res = await loadRecommendPost(this);
 			this.pages = res.pages;
-			this.post_1_id = res.records[0].id;
-
-			this.pageNo++;
-			res = await loadRecommendPost(this);
-			this.post_0_id = res.records[0].id;
-			this.post_2_id = res.records[0].id;
+			this.post_1 = res.records[0];
+		},
+		created: function() {
+			console.log('home-created')
+		},
+		beforeMount: function() {
+			console.log('home-beforeMount')
+		},
+		mounted: function() {
+			console.log('home-mounted')
+		},
+		beforeUpdate: function() {
+			console.log('home-beforeUpdate')
+		},
+		updated: function() {
+			console.log('home-updated')
 		},
 		methods: {
-			swiperChange: async function(e) {
-				console.log(e);
+			swiperChange: function(e) {
+				if (this.currentSwiperIndex === 1 && e.detail.current === 2) {
+					console.log('右滑', this.currentSwiperIndex, '--->', e.detail.current)
+					this.turnRight(e.detail.current);
+				} else if (this.currentSwiperIndex === 2 && e.detail.current === 0) {
+					console.log('右滑', this.currentSwiperIndex, '--->', e.detail.current)
+					this.turnRight(e.detail.current);
+				} else if (this.currentSwiperIndex === 0 && e.detail.current === 1) {
+					console.log('右滑', this.currentSwiperIndex, '--->', e.detail.current)
+					this.turnRight(e.detail.current);
+				} else if (this.currentSwiperIndex === 1 && e.detail.current === 0) {
+					console.log('左滑', this.currentSwiperIndex, '--->', e.detail.current)
+				} else if (this.currentSwiperIndex === 0 && e.detail.current === 2) {
+					console.log('左滑', this.currentSwiperIndex, '--->', e.detail.current)
+				} else if (this.currentSwiperIndex === 2 && e.detail.current === 1) {
+					console.log('左滑', this.currentSwiperIndex, '--->', e.detail.current)
+				}
+				this.currentSwiperIndex = e.detail.current;
+			},
+			//左滑处理
+			turnLeft() {
+
+			},
+			//右滑处理
+			async turnRight(current) {
 				if (this.pageNo == this.pages) {
 					this.pageNo = 1;
 				} else {
 					this.pageNo++;
 				}
 				let res = await loadRecommendPost(this);
-				if (e.detail.current == 0) {
-					this.post_1_id = res.records[0].id;
-					this.post_2_id = res.records[0].id;
-				} else if (e.detail.current == 1) {
-					this.post_0_id = res.records[0].id;
-					this.post_2_id = res.records[0].id;
-				} else if (e.detail.current == 2) {
-					console.log(this.post_0_id, this.post_1_id, this.post_2_id)
-					this.post_0_id = res.records[0].id;
-					this.post_1_id = res.records[0].id;
+				if (current == 0) {
+					this.post_0 = res.records[0];
+				} else if (current == 1) {
+					this.post_1 = res.records[0];
+				} else if (current == 2) {
+					this.post_2 = res.records[0];
 				}
 			},
 			initMenu() {
@@ -137,7 +161,8 @@
 			initWebSocket: function() {
 				// WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
 				var userId = this.$store.getters.userid;
-				var url = this.$config.apiUrl.replace("https://", "wss://").replace("http://", "ws://") + "/websocket/" + userId;
+				var url = this.$config.apiUrl.replace("https://", "wss://").replace("http://", "ws://") +
+					"/websocket/" + userId;
 				console.log('websocket url>>' + url);
 				this.websock = new WebSocket(url);
 				this.websock.onopen = this.websocketOnopen;
