@@ -14,7 +14,7 @@ const uniPay = require('uni-pay')
 
 const db = uniCloud.database()
 exports.main = async (event, context) => {
-	console.log(event);
+	console.log(event, context);
 	let {
 		provider,
 		outTradeNo,
@@ -82,6 +82,7 @@ exports.main = async (event, context) => {
 			tradeType = 'APP'
 			break;
 		case 'alipay_app-plus':
+			console.log(aliConfigApp);
 			uniPayInstance = uniPay.initAlipay(aliConfigApp)
 			break;
 		case 'wxpay_h5':
@@ -120,6 +121,7 @@ exports.main = async (event, context) => {
 			notifyUrl,
 			tradeType
 		})
+		console.log(orderInfo)
 	} catch (e) {
 		console.log(e.message)
 		return {

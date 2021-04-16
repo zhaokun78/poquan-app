@@ -4,7 +4,7 @@
 			<block slot="backText">返回</block>
 			<block slot="content">日记查看</block>
 		</cu-custom>
-		<diary-view :postId='id'></diary-view>
+		<diary-view v-if="post!=null" :post='post'></diary-view>
 	</view>
 </template>
 
@@ -12,11 +12,15 @@
 	export default {
 		data() {
 			return {
-				id: null
+				post: null
 			};
 		},
 		onLoad: function(option) {
-			this.id = option.id;
+			this.$http.get('/showme/showmePost/queryById?id=' + option.id).then(res => {
+				if (res.data.success) {
+					this.post = res.data.result;
+				}
+			})
 		},
 		methods: {}
 	}

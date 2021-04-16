@@ -32,13 +32,15 @@
 			<!-- 个人经历/经验 -->
 			<!-- <view class="solids-bottom padding-xs flex"> -->
 			<view class="flex-sub">
+				<!--
 				<view class="solid-bottom text-lg padding">
 					<view class="text-black text-bold text-center">{{pyGerenjingliBiaoti}}</view>
 				</view>
+				-->
 				<view class="article-content">
 					<rich-text :nodes="pyGerenjingliFengmian"></rich-text>
 				</view>
-				<uni-collapse accordion="true">
+				<uni-collapse>
 					<uni-collapse-item title="展开完整内容">
 						<view class="article-content">
 							<rich-text :nodes="pyGerenjingli"></rich-text>

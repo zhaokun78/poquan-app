@@ -29,7 +29,7 @@
 			<view class="cu-bar btn-group">
 				<button class="cu-btn bg-blue shadow-blur round" @click="newDiary">
 					<text class="cuIcon-write"></text>
-					发表日记
+					发布内容
 				</button>
 				<button class="cu-btn bg-gradual-purple shadow-blur round" @click="newProduct">
 					<text class="cuIcon-goods"></text>

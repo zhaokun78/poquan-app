@@ -2,7 +2,7 @@
 	<view class="zai-box">
 		<scroll-view scroll-y class="page">
 			<view style="text-align: center;" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
-				<image src="/static/login3.png" mode='aspectFit' class="zai-logo"></image>
+				<image src="/static/logo.png" mode='aspectFit' class="zai-logo"></image>
 				<view class="zai-title">破圈互联</view>
 			</view>
 			<view class="box padding-lr-xl login-paddingtop" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
@@ -38,7 +38,7 @@
 		<!-- 登录加载弹窗 -->
 		<view class="cu-load load-modal" v-if="loading">
 			<!-- <view class="cuIcon-emojifill text-orange"></view> -->
-			<image src="/static/login3.png" mode="aspectFit"></image>
+			<image src="/static/logo.png" mode="aspectFit"></image>
 			<view class="gray-text">登录中...</view>
 		</view>
 		<!-- <my-image-upload></my-image-upload>

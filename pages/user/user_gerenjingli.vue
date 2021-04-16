@@ -2,22 +2,18 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-pink" :isBack="true">
 			<block slot="backText">返回</block>
-			<block slot="content">编辑个人经历经验</block>
+			<block slot="content">编辑我的经历</block>
 		</cu-custom>
 		<form>
-			<view class="cu-form-group">
-				<input placeholder="标题" name="input" v-model="myFormData.pyGerenjingliBiaoti"></input>
-			</view>
-			<uni-collapse accordion="true">
-				<uni-collapse-item title="封面">
+			<uni-collapse>
+				<uni-collapse-item title="封面" open>
 					<rich-text-editor v-if="myFormData.pyGerenjingliFengmian!=''" id="pyGerenjingliFengmian"
-						:content.sync="myFormData.pyGerenjingliFengmian"></rich-text-editor>
+						:content.sync="myFormData.pyGerenjingliFengmian" :placeholder="coverTip">
+					</rich-text-editor>
 				</uni-collapse-item>
-			</uni-collapse>
-			<uni-collapse accordion="true">
-				<uni-collapse-item title="内容">
+				<uni-collapse-item title="内容" open>
 					<rich-text-editor v-if="myFormData.pyGerenjingli!=''" id="pyGerenjingli"
-						:content.sync="myFormData.pyGerenjingli"></rich-text-editor>
+						:content.sync="myFormData.pyGerenjingli" :placeholder="contentTip"></rich-text-editor>
 				</uni-collapse-item>
 			</uni-collapse>
 
@@ -32,21 +28,33 @@
 	export default {
 		data() {
 			return {
+				coverTip: '',
+				contentTip: '',
 				myFormData: {
 					id: '',
-					pyGerenjingliBiaoti: '',
 					pyGerenjingliFengmian: '',
 					pyGerenjingli: '',
 				},
 			};
 		},
 		onLoad: function(option) {
+			this.$http.get('/showme/showmeParameter/list?name=我的经历封面提示').then(res => {
+				if (res.data.success && res.data.result.records.length > 0) {
+					this.coverTip = res.data.result.records[0].value;
+				}
+			})
+
+			this.$http.get('/showme/showmeParameter/list?name=我的经历内容提示').then(res => {
+				if (res.data.success && res.data.result.records.length > 0) {
+					this.contentTip = res.data.result.records[0].value;
+				}
+			})
+
 			this.$http.get('/showme/showmeUserext/queryByUserName?username=' + this.$store.getters.username).then(
 				res => {
 					if (res.data.success) {
 						let result = res.data.result;
 						this.myFormData.id = result.id;
-						this.myFormData.pyGerenjingliBiaoti = result.pyGerenjingliBiaoti;
 						this.myFormData.pyGerenjingliFengmian = result.pyGerenjingliFengmian;
 						this.myFormData.pyGerenjingli = result.pyGerenjingli;
 					}
@@ -54,10 +62,6 @@
 		},
 		methods: {
 			onSubmit() {
-				if (!this.myFormData.pyGerenjingliBiaoti || this.myFormData.pyGerenjingliBiaoti.trim().length == 0) {
-					this.$tip.alert('请输入标题！');
-					return false
-				}
 				if (!this.myFormData.pyGerenjingliFengmian || this.myFormData.pyGerenjingliFengmian.trim().length == 0) {
 					this.$tip.alert('请输入封面！');
 					return false

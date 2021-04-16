@@ -28,14 +28,9 @@
 					</view>
 				</view>
 			</view>
-			<uni-collapse accordion="true">
-				<uni-collapse-item title="商品描述">
-					<rich-text-editor id="content" :content.sync="content"></rich-text-editor>
-				</uni-collapse-item>
-			</uni-collapse>
-			<uni-collapse accordion="true">
-				<uni-collapse-item title="使用心得">
-					<rich-text-editor id="useIdeas" :content.sync="useIdeas"></rich-text-editor>
+			<uni-collapse>
+				<uni-collapse-item title="商品描述" open>
+					<rich-text-editor id="content" :content.sync="content" :placeholder="tip"></rich-text-editor>
 				</uni-collapse-item>
 			</uni-collapse>
 		</form>
@@ -51,7 +46,6 @@
 			price: that.price,
 			cover: that.cover,
 			content: that.content,
-			useIdeas: that.useIdeas,
 			state: 0,
 			longitude: longitude,
 			latitude: latitude
@@ -87,8 +81,8 @@
 				cover: '', //商品封面图片
 				imgList: [],
 				content: undefined, //商品描述
-				useIdeas: undefined, //商品使用心得
-				isBusy: false //为 true 代表正在发送请求
+				isBusy: false, //为 true 代表正在发送请求
+				tip: '', //从后台系统配置中获取到的输入提示
 			}
 		},
 		methods: {
@@ -111,11 +105,6 @@
 
 				if (this.content == undefined) {
 					this.$tip.error('请填写商品描述！')
-					return;
-				}
-
-				if (this.useIdeas == undefined) {
-					this.$tip.error('请填写商品使用心得！')
 					return;
 				}
 
@@ -177,7 +166,13 @@
 				})
 			}
 		},
-		onLoad() {},
+		onLoad() {
+			this.$http.get('/showme/showmeParameter/list?name=商品描述提示').then(res => {
+				if (res.data.success && res.data.result.records.length > 0) {
+					this.tip = res.data.result.records[0].value;
+				}
+			})
+		},
 	}
 </script>
 

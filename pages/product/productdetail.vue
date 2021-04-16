@@ -21,17 +21,6 @@
 					</view>
 				</view>
 			</view>
-			<!-- 使用心得 -->
-			<view class="solids-bottom padding-xs flex">
-				<view class="flex-sub">
-					<view class="solid-bottom text-lg padding">
-						<view class="text-black text-bold text-center">使用心得</view>
-					</view>
-					<view class="article-content">
-						<rich-text :nodes="product.useIdeas"></rich-text>
-					</view>
-				</view>
-			</view>
 		</view>
 		<view class="malldetail-buy">
 			<text class="malldetail-now-buy" @click="pay">立即购买</text>
@@ -59,40 +48,61 @@
 				this.product = ret.data.result
 				this.product.cover = this.$config.staticDomainURL + '/' + this.product.cover;
 				this.product.content = htmlParser(util.formatRichTextImgWidth(this.product.content));
-				this.product.useIdeas = htmlParser(util.formatRichTextImgWidth(this.product.useIdeas));
 			}
 		},
 		methods: {
 			async pay() {
-				this.$tip.toast('开发中...');
-				return;
-				
-				let res = await uniCloud.callFunction({
+				//创建订单
+				let res = await this.$http.post('/showme/showmeOrder/add', {
+					product: this.product.id
+				})
+
+				let orderId = undefined;
+				if (res.data.success) {
+					orderId = res.data.result;
+				} else {
+					uni.showModal({
+						title: '提示',
+						content: '创建订单失败！',
+						showCancel: false,
+						success: r => {
+							return;
+						},
+					})
+				}
+
+				if (orderId === undefined) {
+					return;
+				}
+				res = await uniCloud.callFunction({
 					name: 'pay',
 					data: {
 						provider: 'alipay',
-						outTradeNo: '1378923740491640830'
+						outTradeNo: orderId
 					}
 				});
 
 				uni.showModal({
-					title: 'cloud function',
+					title: 'cloud function return',
 					content: JSON.stringify(res),
-					showCancel: false
-				});
-
-				if (res.result.orderInfo) {
-					uni.requestPayment({
-						provider: 'alipay',
-						orderInfo: res.result.orderInfo,
-						success() {
-							this.$tip.success('支付成功');
-						},
-						fail() {
-							this.$tip.success('支付失败');
+					showCancel: false,
+					success: r => {
+						if (r.confirm) {
+							if (res.result.orderInfo) {
+								uni.requestPayment({
+									provider: 'alipay',
+									orderInfo: res.result.orderInfo,
+									success() {
+										this.$tip.success('支付成功');
+									},
+									fail() {
+										this.$tip.success('支付失败');
+									}
+								})
+							}
 						}
-					})
-				}
+					},
+				});
 			}
 		}
 	}

@@ -74,7 +74,7 @@
 					:style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="cuIcon-footprint text-orange"></text>
-						<text class="text-grey">经历经验</text>
+						<text class="text-grey">我的经历</text>
 					</view>
 				</navigator>
 				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.7s'}]">

@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-pink" :isBack="true">
 			<view slot="backText">返回</view>
-			<view slot="content">发表日记</view>
+			<view slot="content">发布内容</view>
 			<view v-if="!isBusy" slot="right" @tap="save">发表</view>
 		</cu-custom>
 		<form>
@@ -19,9 +19,9 @@
 					</view>
 				</picker>
 			</view>
-			<uni-collapse accordion="true">
-				<uni-collapse-item v-for="(item, index) in postParagraph" :key="item.id" :title="item.name">
-					<rich-text-editor :id="item.id" :content.sync="item.content"></rich-text-editor>
+			<uni-collapse>
+				<uni-collapse-item v-for="(item, index) in postParagraph" :key="item.id" :title="item.name" open>
+					<rich-text-editor :id="item.id" :content.sync="item.content" :placeholder="item.tip"></rich-text-editor>
 				</uni-collapse-item>
 			</uni-collapse>
 		</form>
