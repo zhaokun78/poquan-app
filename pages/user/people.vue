@@ -70,13 +70,6 @@
 						<text class="text-grey">我的团队</text>
 					</view>
 				</view>
-				<navigator url="/pages/user/user_gerenjingli" class="cu-item arrow animation-slide-bottom"
-					:style="[{animationDelay: '0.1s'}]">
-					<view class="content">
-						<text class="cuIcon-footprint text-orange"></text>
-						<text class="text-grey">我的经历</text>
-					</view>
-				</navigator>
 				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.7s'}]">
 					<navigator class="content" url="/pages/user/userexit" hover-class="none">
 						<text class="cuIcon-exit text-black"></text>

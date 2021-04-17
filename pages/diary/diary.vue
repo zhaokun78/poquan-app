@@ -132,33 +132,10 @@
 			 * 发表新日记
 			 */
 			async newDiary() {
-				//检测个人经历经验是否填写
-				let res = await this.$http.get('/showme/showmeUserext/queryByUserName?username=' + this.$store.getters
-					.username);
-				if (res.data.success) {
-					//同时还要检测是否通过审核，每次修改都需要审核
-					if (res.data.result.pyGerenjingliBiaoti &&
-						res.data.result.pyGerenjingliFengmian &&
-						res.data.result.pyGerenjingli) {
-						//跳转到写日记页面
-						uni.navigateTo({
-							url: '/pages/diary/diaryedit'
-						});
-					} else {
-						uni.showModal({
-							showCancel: true,
-							title: '提示！',
-							content: '请首先到 我的---经历经验 中完善个人经历经验！',
-							success: res => {
-								if (res.confirm) {
-									uni.navigateTo({
-										url: '/pages/user/user_gerenjingli'
-									})
-								}
-							}
-						})
-					}
-				}
+				//跳转到写日记页面
+				uni.navigateTo({
+					url: '/pages/diary/diaryedit'
+				});
 			},
 
 			/**

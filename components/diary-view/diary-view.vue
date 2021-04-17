@@ -29,26 +29,6 @@
 					</view>
 				</view>
 			</view>
-			<!-- 个人经历/经验 -->
-			<!-- <view class="solids-bottom padding-xs flex"> -->
-			<view class="flex-sub">
-				<!--
-				<view class="solid-bottom text-lg padding">
-					<view class="text-black text-bold text-center">{{pyGerenjingliBiaoti}}</view>
-				</view>
-				-->
-				<view class="article-content">
-					<rich-text :nodes="pyGerenjingliFengmian"></rich-text>
-				</view>
-				<uni-collapse>
-					<uni-collapse-item title="展开完整内容">
-						<view class="article-content">
-							<rich-text :nodes="pyGerenjingli"></rich-text>
-						</view>
-					</uni-collapse-item>
-				</uni-collapse>
-			</view>
-			<!-- </view> -->
 			<!-- 日记段落内容 -->
 			<view class="solids-bottom padding-xs flex" v-for="(item,index) in postParagraphs" :key="item.id">
 				<view class="flex-sub">
@@ -139,9 +119,6 @@
 		data() {
 			return {
 				paragraphs: [], //日记段落配置
-				pyGerenjingliBiaoti: '', //经历经验标题
-				pyGerenjingliFengmian: '', //经历经验封面
-				pyGerenjingli: '', //经历经验内容
 				postParagraphs: [], //需求日记段落内容,
 				htmlNodes: [], //日记段落内容 html 节点数组
 				hadFollow: false, //是否关注作者
@@ -201,24 +178,7 @@
 				if (res.data.success) {
 					that.paragraphs = res.data.result.records;
 
-					//查询经历经验
-					this.$http.get('/showme/showmeUserext/queryByUserName?username=' + that.post.createBy).then(
-						res => {
-							if (res.data.success) {
-								that.pyGerenjingliBiaoti = res.data.result.pyGerenjingliBiaoti;
-								if (res.data.result.pyGerenjingliFengmian) {
-									that.pyGerenjingliFengmian = htmlParser(util.formatRichTextImgWidth(res
-										.data.result
-										.pyGerenjingliFengmian));
-								}
-								if (res.data.result.pyGerenjingli) {
-									that.pyGerenjingli = htmlParser(util.formatRichTextImgWidth(res.data.result
-										.pyGerenjingli));
-								}
-							}
-						})
-
-					//3、查询日记段落
+					//2、查询日记段落
 					that.$http.get('/showme/showmePost/listShowmePostParagraphByMainId?postId=' + that.post.id).then(
 						res => {
 							if (res.data.success) {
