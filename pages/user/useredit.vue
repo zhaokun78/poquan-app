@@ -73,6 +73,10 @@
 				<view class="title">邮箱</view>
 				<input placeholder="输入邮箱" name="input" v-model="myFormData.email"></input>
 			</view>
+			<view class="cu-form-group">
+				<view class="title">个人简介</view>
+				<textarea placeholder="输入个人简介" auto-height="true" v-model="myFormData.biography"></textarea>
+			</view>
 			<view class="padding flex flex-direction">
 				<button class="cu-btn bg-blue lg" @click="onSubmit">提交</button>
 			</view>

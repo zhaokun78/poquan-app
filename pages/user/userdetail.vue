@@ -44,48 +44,6 @@
 				</view>
 			</view>
 
-			<!--
-			<view class="cu-list menu">
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.5s'}]">
-					<view class="content">
-						<text class="text-grey">对外信息展示</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{getSubStringText(personalMsg.realname+'@'+personalMsg.orgCode,11)}}</text>
-					</view>
-				</view>
-			</view>
-			-->
-
-			<!--
-			<view class="cu-list menu">
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.6s'}]">
-					<view class="content">
-						<text class="text-grey">所在部门</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{personalMsg.orgCode}}</text>
-					</view>
-				</view>
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.7s'}]">
-					<view class="content">
-						<text class="text-grey">工号</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{personalMsg.workNo}}</text>
-					</view>
-				</view>
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.8s'}]">
-					<view class="content">
-						<text class="text-grey">状态</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{personalMsg.status}}</text>
-					</view>
-				</view>
-			</view>
-			-->
-
 			<view class="cu-list menu">
 				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.9s'}]">
 					<view class="content">
@@ -103,6 +61,14 @@
 						<text class="text-grey">{{personalMsg.email}}</text>
 					</view>
 				</view>
+				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '1s'}]">
+					<view class="content">
+						<text class="text-grey">个人简介</text>
+					</view>
+					<view class="action">
+						<text class="text-grey">{{personalMsg.biography}}</text>
+					</view>
+				</view>
 			</view>
 
 			<view class="cu-list menu">
@@ -113,35 +79,6 @@
 					</view>
 				</navigator>
 			</view>
-
-			<!--
-			<view class="cu-list menu">
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '1.1s'}]">
-					<view class="content">
-						<text class="text-grey">职务</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{personalMsg.post}}</text>
-					</view>
-				</view>
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '1.2s'}]">
-					<view class="content">
-						<text class="text-grey">身份</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{personalMsg.identity}}</text>
-					</view>
-				</view>
-				<view class="cu-item animation-slide-bottom" v-if="personalMsg.identity =='上级'" >
-					<view class="content">
-						<text class="text-grey">负责部门</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{personalMsg.departIds}}</text>
-					</view>
-				</view>
-			</view>
-			-->
 
 		</scroll-view>
 	</view>
@@ -164,6 +101,7 @@
 					phone: '',
 					telephone: '',
 					email: '',
+					biography: '',
 					post: '',
 					departIds: '',
 					identity: '',
@@ -191,9 +129,6 @@
 					name: 'useredit',
 					params: this.personalMsg
 				})
-				/* uni.navigateTo({
-				    url: '/pages/user/useredit?item='+item
-				}); */
 			},
 			loadinfo() {
 				this.$http.get(this.userUrl, {
@@ -222,6 +157,7 @@
 						this.personalMsg.phone = result.phone
 						this.personalMsg.telephone = result.telephone == null ? '无' : result.telephone
 						this.personalMsg.email = result.email
+						this.personalMsg.biography = result.biography
 						this.personalMsg.post = result.post
 						this.personalMsg.identity = result.identity === 1 ? '普通成员' : '上级'
 						this.personalMsg.status = result.status === 1 ? '正常' : '冻结'
@@ -230,23 +166,6 @@
 				}).catch(e => {
 					console.log("请求错误", e)
 				})
-
-				/*
-				this.$http.get(this.departUrl, {
-					params: {
-						userId: this.$store.getters.userid
-					}
-				}).then(res => {
-					if (res.success) {
-						for (let item of res.result) {
-							this.personalMsg.orgCode = item.title
-							this.personalMsg.departIds = item.title
-						}
-					}
-				}).catch(e => {
-					console.log("请求错误", e)
-				})
-				*/
 
 				this.$http.get(this.positionUrl).then(res => {
 					if (res.success) {
