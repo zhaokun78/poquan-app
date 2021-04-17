@@ -5,8 +5,7 @@
 			<view class="text-gray text-left text-sm">{{post.industryCategory}}</view>
 			<view class="cu-list menu-avatar">
 				<view class="cu-item">
-					<view class="cu-avatar round lg"
-						style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);">
+					<view class="cu-avatar round lg" :style="{ backgroundImage:'url(' + post.avatar + ')' }">
 					</view>
 					<view class="content flex-sub">
 						<view class="text-gray text-sm flex justify-between">
@@ -112,6 +111,7 @@
 		})
 	}
 
+	import api from '@/api/api'
 	import util from '@/common/util/util'
 	import htmlParser from '@/common/html-parser'
 	export default {
@@ -147,7 +147,6 @@
 			//console.log('beforeMount')
 		},
 		mounted: function() {
-			console.log('mounted')
 			this.reloadPost()
 		},
 		beforeUpdate: function() {
@@ -163,7 +162,6 @@
 			async reloadPost() {
 				let that = this
 				that.paragraphs = [];
-				//that.post = {};
 				that.postParagraphs = [];
 				that.htmlNodes = [];
 				that.hadFollow = false;
@@ -172,6 +170,20 @@
 				that.curUserPraised = false;
 				that.collectCount = 0;
 				that.curUserCollected = false;
+
+				//加载日记作者头像
+				that.$http.get('/sys/user/queryByUsername', {
+					params: {
+						username: that.post.createBy
+					}
+				}).then(res => {
+					if (res.data.success) {
+						let perArr = res.data.result
+						let avatar = (perArr.avatar && perArr.avatar.length > 0) ?
+							api.getFileAccessHttpUrl(perArr.avatar) : '/static/avatar_boy.png'
+						that.post.avatar = avatar
+					}
+				});
 
 				//1、查询段落配置
 				let res = await that.$http.get('/showme/showmeParagraph/list?pageNo=1&pageSize=50');
