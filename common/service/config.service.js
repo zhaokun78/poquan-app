@@ -1,7 +1,7 @@
 let BASE_URL = ''
 
 if (process.env.NODE_ENV == 'development') {
-	BASE_URL = 'http://localhost:8080/jeecg-boot' // 开发环境
+	BASE_URL = 'https://api.poquanhulian.com/jeecg-boot' // 开发环境
 } else {
 	BASE_URL = 'https://api.poquanhulian.com/jeecg-boot' // 生产环境
 }

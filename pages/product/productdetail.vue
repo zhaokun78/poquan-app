@@ -6,6 +6,21 @@
 			<view slot="right" @tap="share">分享</view>
 		</cu-custom>
 		<view class="cu-item shadow">
+			<view class="cu-list menu-avatar">
+				<view class="cu-item">
+					<navigator class="cu-avatar round" :style="{ backgroundImage:'url(' + avatar + ')' }"
+						:url="'/pages/diary/diaryindex?userId=' + product.createBy">
+					</navigator>
+					<view class="content flex-sub">
+						<navigator :url="'/pages/diary/diaryindex?userId=' + product.createBy">
+							{{product.createBy}}
+						</navigator>						
+						<view class="text-gray text-sm">
+							{{product.createTime}}
+						</view>
+					</view>
+				</view>
+			</view>
 			<image :src="product.cover" mode="aspectFit" style="width:100% !important;"></image>
 			<text class="text-red text-left text-xxl">￥</text>
 			<text class="text-red text-left text-sl">{{product.price}}</text>
@@ -29,9 +44,10 @@
 </template>
 
 <script>
+	import api from '@/api/api'
 	import util from '@/common/util/util'
 	import htmlParser from '@/common/html-parser'
-	//import goodAction from '@/components/goods/good-action.vue'
+
 	export default {
 		components: {
 			//goodAction,
@@ -39,6 +55,7 @@
 		data() {
 			return {
 				product: {},
+				avatar: undefined,
 			};
 		},
 		onLoad: async function(option) {
@@ -48,6 +65,19 @@
 				this.product = ret.data.result
 				this.product.cover = this.$config.staticDomainURL + '/' + this.product.cover;
 				this.product.content = htmlParser(util.formatRichTextImgWidth(this.product.content));
+
+				//加载作者头像
+				ret = await this.$http.get('/sys/user/queryByUsername', {
+					params: {
+						username: this.product.createBy
+					}
+				});
+				if (ret.data.success) {
+					let perArr = ret.data.result
+					let avatar = (perArr.avatar && perArr.avatar.length > 0) ?
+						api.getFileAccessHttpUrl(perArr.avatar) : '/static/avatar_boy.png'
+					this.avatar = avatar;
+				}
 			}
 		},
 		methods: {

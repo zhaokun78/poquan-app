@@ -30,17 +30,52 @@ const routes = [{
 		},
 	},
 	{
+		path: '/pages/diary/supply/supplydetail',
+		name: 'supplydetail',
+		meta: {
+			title: '供应查看',
+		},
+	},
+	{
+		path: '/pages/diary/supply/supplyedit',
+		name: 'supplyedit',
+		meta: {
+			title: '供应编辑',
+		},
+	},
+	{
+		path: '/pages/diary/diaryindex',
+		name: 'diaryindex',
+		meta: {
+			title: '个人主页',
+		},
+	},
+	{
 		path: '/pages/diary/diaryview',
 		name: 'diaryview',
 		meta: {
-			title: '日记查看',
+			title: '需求查看',
 		},
 	},
 	{
 		path: '/pages/diary/diaryedit',
 		name: 'diaryedit',
 		meta: {
-			title: '日记编辑',
+			title: '需求编辑',
+		},
+	},
+	{
+		path: '/pages/diary/daily/dailydetail',
+		name: 'dailydetail',
+		meta: {
+			title: '日常查看',
+		},
+	},
+	{
+		path: '/pages/diary/daily/dailyedit',
+		name: 'dailyedit',
+		meta: {
+			title: '日常编辑',
 		},
 	},
 	{

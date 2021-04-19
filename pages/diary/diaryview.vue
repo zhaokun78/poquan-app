@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-pink" :isBack="true">
 			<block slot="backText">返回</block>
-			<block slot="content">日记查看</block>
+			<block slot="content">需求查看</block>
 		</cu-custom>
 		<diary-view v-if="post!=null" :post='post'></diary-view>
 	</view>

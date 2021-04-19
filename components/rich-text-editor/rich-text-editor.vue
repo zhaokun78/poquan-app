@@ -2,7 +2,7 @@
 	<view>
 		<view class="container">
 			<view class='wrapper'>
-				<view class="editor-wrapper">					
+				<view class="editor-wrapper">
 					<view class="cu-bar tabbar bg-white" @tap="format" style="margin-top: 20rpx !important;">
 						<view class="action">
 							<view :class="formats.bold ? 'ql-active' : ''" class="iconfont icon-zitijiacu"
@@ -58,6 +58,57 @@
 						showImgResize @input="onInput" @statuschange="onStatusChange" :read-only="readOnly"
 						@ready="onEditorReady">
 					</editor>
+					<view class="cu-bar tabbar bg-white" @tap="format">
+						<view class="action">
+							<view :class="formats.bold ? 'ql-active' : ''" class="iconfont icon-zitijiacu"
+								data-name="bold">
+							</view>
+						</view>
+						<view class="action">
+							<view :class="formats.italic ? 'ql-active' : ''" class="iconfont icon-zitixieti"
+								data-name="italic">
+							</view>
+						</view>
+						<view class="action">
+							<view :class="formats.underline ? 'ql-active' : ''" class="iconfont icon-zitixiahuaxian"
+								data-name="underline">
+							</view>
+						</view>
+						<view class="action">
+							<view :class="formats.align === 'left' ? 'ql-active' : ''" class="iconfont icon-zuoduiqi"
+								data-name="align" data-value="left">
+							</view>
+						</view>
+						<view class="action">
+							<view :class="formats.align === 'center' ? 'ql-active' : ''"
+								class="iconfont icon-juzhongduiqi" data-name="align" data-value="center">
+							</view>
+						</view>
+						<view class="action">
+							<view :class="formats.align === 'right' ? 'ql-active' : ''" class="iconfont icon-youduiqi"
+								data-name="align" data-value="right">
+							</view>
+						</view>
+						<view class="action">
+							<view :class="formats.align === 'justify' ? 'ql-active' : ''"
+								class="iconfont icon-zuoyouduiqi" data-name="align" data-value="justify">
+							</view>
+						</view>
+						<view class="action">
+							<view :class="formats.list === 'ordered' ? 'ql-active' : ''"
+								class="iconfont icon-youxupailie" data-name="list" data-value="ordered">
+							</view>
+						</view>
+						<view class="action">
+							<view :class="formats.list === 'bullet' ? 'ql-active' : ''" class="iconfont icon-wuxupailie"
+								data-name="list" data-value="bullet">
+							</view>
+						</view>
+						<view class="action">
+							<view class="iconfont icon-charutupian" @tap="insertImage">
+							</view>
+						</view>
+					</view>
 				</view>
 			</view>
 		</view>

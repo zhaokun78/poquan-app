@@ -1,16 +1,5 @@
 <template name="home">
 	<view>
-		<!--
-		<view class="cu-bar search bg-white">
-			<view class="search-form round">
-				<text class="cuIcon-search"></text>
-				<input type="text" placeholder="搜索你感兴趣的内容" confirm-type="search"></input>
-			</view>
-			<view class="action">
-				<button class="cu-btn bg-green shadow-blur round">搜索</button>
-			</view>
-		</view>
-		-->
 		<scroll-view scroll-x class="bg-white nav text-center">
 			<view class="cu-item">
 				位置
@@ -21,11 +10,6 @@
 			<view class="cu-item text-green cur">
 				推荐
 			</view>
-			<!--
-			<view class="cu-item">
-				行业
-			</view>
-			-->
 			<view class="cu-capsule round">
 				<view class="cu-tag bg-blue ">
 					<text class="cuIcon-likefill"></text>
@@ -35,30 +19,100 @@
 				</view>
 			</view>
 		</scroll-view>
-
-		<swiper :current="1" :circular="true" @change="swiperChange" style="height:5000px;">
-			<swiper-item>
-				<diary-view v-if="post_0!=undefined" :post='post_0'></diary-view>
-			</swiper-item>
-			<swiper-item>
-				<diary-view v-if="post_1!=undefined" :post='post_1'></diary-view>
-			</swiper-item>
-			<swiper-item>
-				<diary-view v-if="post_2!=undefined" :post='post_2'></diary-view>
-			</swiper-item>
-		</swiper>
+		<scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="0">
+			<view :class="curSecondLevelTab==0? 'cu-item text-green cur':'cu-item'" data-id="0"
+				@click="secondLevelTabSelect">
+				供应
+			</view>
+			<view :class="curSecondLevelTab==1? 'cu-item text-green cur':'cu-item'" data-id="1"
+				@click="secondLevelTabSelect">
+				需求
+			</view>
+		</scroll-view>
+		<view class="cu-card dynamic">
+			<block v-if="curSecondLevelTab==0">
+				<view class="cu-item shadow solid-top" v-for="(item, index) in supplies" :key="item.id">
+					<view class="cu-list menu-avatar">
+						<view class="cu-item">
+							<navigator class="cu-avatar round"
+								style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"
+								:url="'/pages/diary/diaryindex?userId=' + item.createBy">
+							</navigator>
+							<view class="content flex-sub">
+								<navigator :url="'/pages/diary/diaryindex?userId=' + item.createBy">
+									{{item.createBy}}
+								</navigator>
+								<view class="text-gray text-sm flex justify-between">
+									{{item.createTime}}
+								</view>
+							</view>
+						</view>
+					</view>
+					<navigator class="text-content" :url="'/pages/diary/supply/supplydetail?id=' + item.id">
+						{{item.title}}
+					</navigator>
+					<view class="text-gray text-sm text-right padding">
+						<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+						<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+						<text class="cuIcon-messagefill margin-lr-xs"></text> 30
+					</view>
+				</view>
+			</block>
+			<block v-if="curSecondLevelTab==1">
+				<view class="cu-item shadow solid-top" v-for="(item, index) in posts" :key="item.id">
+					<view class="cu-list menu-avatar">
+						<view class="cu-item">
+							<navigator class="cu-avatar round"
+								style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"
+								:url="'/pages/diary/diaryindex?userId=' + item.createBy">
+							</navigator>
+							<view class="content flex-sub">
+								<navigator :url="'/pages/diary/diaryindex?userId=' + item.createBy">
+									{{item.createBy}}
+								</navigator>
+								<view class="text-gray text-sm flex justify-between">
+									{{item.createTime}}
+								</view>
+							</view>
+						</view>
+					</view>
+					<navigator class="text-content" :url="'/pages/diary/diaryview?id=' + item.id">
+						{{item.title}}
+					</navigator>
+					<view class="text-gray text-sm text-right padding">
+						<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+						<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+						<text class="cuIcon-messagefill margin-lr-xs"></text> 30
+					</view>
+				</view>
+			</block>
+			<view class="cu-bar btn-group">
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
-	/**
-	 * 加载推荐文章
-	 */
-	async function loadRecommendPost(that) {
-		let ret = await that.$http.get('/showme/showmePost/list?pageNo=' + that.pageNo + '&pageSize=' + that.pageSize);
-		if (ret.data.success) {
-			return ret.data.result;
+	function loadData(that) {
+		let url;
+		if (that.curSecondLevelTab == 0) {
+			url = '/showme/showmeSupply/list';
+		} else if (that.curSecondLevelTab == 1) {
+			url = '/showme/showmePost/list';
 		}
+
+		url = url + '?pageNo=' + that.pageNo + '&pageSize=' + that.pageSize + '&column=createTime&order=desc';
+		that.$http.get(url).then(ret => {
+			if (ret.data.success) {
+				that.pages = ret.data.result.pages;
+
+				if (that.curSecondLevelTab == 0) {
+					that.supplies = ret.data.result.records;
+				} else if (that.curSecondLevelTab == 1) {
+					that.posts = ret.data.result.records;
+				}
+			}
+		})
 	}
 
 	export default {
@@ -77,26 +131,25 @@
 		},
 		data() {
 			return {
-				pages: 0, //日记分页总页数（目前每页加载一条，因此总页数也就相当于总条数）
-				pageNo: 1, //日记分页当前页数
-				pageSize: 1, //日记分页每页条数
-				currentSwiperIndex: 1, //当前所在滑块的 index
+				curSecondLevelTab: 0, //当前二级导航
+				pages: 0, //分页总页数
+				pageNo: 1, //分页当前页数
+				pageSize: 50, //分页每页条数
 				websock: '',
 				heartCheck: null,
 				lockReconnect: false,
 				msgCount: 0,
-				post_0: undefined,
-				post_1: undefined,
-				post_2: undefined,
+				supplies: [], //供应列表
+				posts: [] //日记列表
 			}
 		},
-		beforeCreate: async function(e) {
+		beforeCreate: function(e) {
 			console.log('home-beforeCreate')
+			this.curSecondLevelTab = 0;
 			this.pageNo = 1;
-			this.pageSize = 1;
-			let res = await loadRecommendPost(this);
-			this.pages = res.pages;
-			this.post_1 = res.records[0];
+			this.pageSize = 50;
+			this.supplies = [];
+			loadData(this);
 		},
 		created: function() {
 			console.log('home-created')
@@ -114,44 +167,10 @@
 			console.log('home-updated')
 		},
 		methods: {
-			swiperChange: function(e) {
-				if (this.currentSwiperIndex === 1 && e.detail.current === 2) {
-					console.log('右滑', this.currentSwiperIndex, '--->', e.detail.current)
-					this.turnRight(e.detail.current);
-				} else if (this.currentSwiperIndex === 2 && e.detail.current === 0) {
-					console.log('右滑', this.currentSwiperIndex, '--->', e.detail.current)
-					this.turnRight(e.detail.current);
-				} else if (this.currentSwiperIndex === 0 && e.detail.current === 1) {
-					console.log('右滑', this.currentSwiperIndex, '--->', e.detail.current)
-					this.turnRight(e.detail.current);
-				} else if (this.currentSwiperIndex === 1 && e.detail.current === 0) {
-					console.log('左滑', this.currentSwiperIndex, '--->', e.detail.current)
-				} else if (this.currentSwiperIndex === 0 && e.detail.current === 2) {
-					console.log('左滑', this.currentSwiperIndex, '--->', e.detail.current)
-				} else if (this.currentSwiperIndex === 2 && e.detail.current === 1) {
-					console.log('左滑', this.currentSwiperIndex, '--->', e.detail.current)
-				}
-				this.currentSwiperIndex = e.detail.current;
-			},
-			//左滑处理
-			turnLeft() {
-
-			},
-			//右滑处理
-			async turnRight(current) {
-				if (this.pageNo == this.pages) {
-					this.pageNo = 1;
-				} else {
-					this.pageNo++;
-				}
-				let res = await loadRecommendPost(this);
-				if (current == 0) {
-					this.post_0 = res.records[0];
-				} else if (current == 1) {
-					this.post_1 = res.records[0];
-				} else if (current == 2) {
-					this.post_2 = res.records[0];
-				}
+			secondLevelTabSelect(e) {
+				this.curSecondLevelTab = e.currentTarget.dataset.id;
+				this.pageNo = 1;
+				loadData(this);
 			},
 			initMenu() {
 				console.log("-----------home------------")
@@ -233,105 +252,4 @@
 </script>
 
 <style>
-	.scroll-Y {
-		height: 300rpx;
-	}
-
-	.scroll-view_H {
-		white-space: nowrap;
-		width: 100%;
-	}
-
-	.scroll-view-item {
-		height: 300rpx;
-		line-height: 300rpx;
-		text-align: center;
-		font-size: 36rpx;
-	}
-
-	.scroll-view-item_H {
-		display: inline-block;
-		width: 100%;
-		height: 300rpx;
-		line-height: 300rpx;
-		text-align: center;
-		font-size: 36rpx;
-	}
-
-	.line2-icon {
-		width: 60px;
-		height: 60px;
-	}
-
-	page {
-		padding-top: 100rpx;
-	}
-
-	.indexes {
-		position: relative;
-	}
-
-	.indexBar {
-		position: fixed;
-		right: 0px;
-		bottom: 0px;
-		padding: 20rpx 20rpx 20rpx 60rpx;
-		display: flex;
-		align-items: center;
-	}
-
-	.indexBar .indexBar-box {
-		width: 40rpx;
-		height: auto;
-		background: #fff;
-		display: flex;
-		flex-direction: column;
-		box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.1);
-		border-radius: 10rpx;
-	}
-
-	.indexBar-item {
-		flex: 1;
-		width: 40rpx;
-		height: 40rpx;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 24rpx;
-		color: #888;
-	}
-
-	movable-view.indexBar-item {
-		width: 40rpx;
-		height: 40rpx;
-		z-index: 9;
-		position: relative;
-	}
-
-	movable-view.indexBar-item::before {
-		content: "";
-		display: block;
-		position: absolute;
-		left: 0;
-		top: 10rpx;
-		height: 20rpx;
-		width: 4rpx;
-		background-color: #f37b1d;
-	}
-
-	.indexToast {
-		position: fixed;
-		top: 0;
-		right: 80rpx;
-		bottom: 0;
-		background: rgba(0, 0, 0, 0.5);
-		width: 100rpx;
-		height: 100rpx;
-		border-radius: 10rpx;
-		margin: auto;
-		color: #fff;
-		line-height: 100rpx;
-		text-align: center;
-		font-size: 48rpx;
-	}
 </style>

@@ -4,7 +4,7 @@
 		<shop v-if="PageCur=='shop'"></shop>
 		<people v-if="PageCur=='people'"></people>
 		<message v-if="PageCur=='message'"></message>
-		<diary v-if="PageCur=='diary'"></diary>
+		<diary v-if="PageCur=='diary'" :userId="this.$store.getters.username"></diary>
 		<view class="cu-bar tabbar bg-white shadow foot">
 			<view :class="PageCur=='home'?'action text-green':'action text-gray'" @click="NavChange" data-cur="home">
 				<view class='cuIcon-homefill'></view>主页
@@ -45,6 +45,15 @@
 			this.PageCur = 'home'
 			//++this.commponent1Key
 			//++this.commponent2Key
+		},
+		onPullDownRefresh: function() {
+			console.log('onPullDownRefresh');
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
+		onReachBottom: function() {
+			console.log('onReachBottom');
 		},
 		methods: {
 			NavChange: function(e) {

@@ -2,13 +2,13 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-pink" :isBack="true">
 			<view slot="backText">返回</view>
-			<view slot="content">发布内容</view>
-			<view v-if="!isBusy" slot="right" @tap="save">发表</view>
+			<view slot="content">发布需求</view>
+			<view v-if="!isBusy" slot="right" @tap="save">发布</view>
 		</cu-custom>
 		<form>
 			<view class="cu-form-group margin-top">
 				<view class="title">标题</view>
-				<input v-model="title" placeholder="输入日记标题">
+				<input v-model="title" placeholder="输入需求标题">
 			</view>
 			<view class="cu-form-group">
 				<view class="title">分类</view>
@@ -61,7 +61,7 @@
 			uni.hideLoading();
 			uni.showModal({
 				title: '成功',
-				content: '发表日记成功！',
+				content: '发表需求成功！',
 				showCancel: false,
 				success: function(res) {
 					if (res.confirm) {
@@ -75,7 +75,7 @@
 		} else {
 			that.isBusy = false;
 			uni.hideLoading();
-			that.$tip.error('发表日记失败：' + ret.data.message);
+			that.$tip.error('发表需求失败：' + ret.data.message);
 		}
 	}
 
