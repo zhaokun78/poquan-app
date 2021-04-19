@@ -118,27 +118,18 @@
 					}
 				});
 
-				uni.showModal({
-					title: 'cloud function return',
-					content: JSON.stringify(res),
-					showCancel: false,
-					success: r => {
-						if (r.confirm) {
-							if (res.result.orderInfo) {
-								uni.requestPayment({
-									provider: 'alipay',
-									orderInfo: res.result.orderInfo,
-									success() {
-										this.$tip.success('支付成功');
-									},
-									fail() {
-										this.$tip.success('支付失败');
-									}
-								})
-							}
+				if (res.result.orderInfo) {
+					uni.requestPayment({
+						provider: 'alipay',
+						orderInfo: res.result.orderInfo,
+						success() {
+							this.$tip.success('支付成功');
+						},
+						fail() {
+							this.$tip.success('支付失败');
 						}
-					},
-				});
+					})
+				}
 			}
 		}
 	}

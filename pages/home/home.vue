@@ -44,14 +44,14 @@
 		<view class="cu-card dynamic">
 			<block v-if="curSecondLevelTab==0">
 				<view class="cu-item shadow solid-top" v-for="(item, index) in posts" :key="item.id">
-					<view class="cu-list menu-avatar">
+					<view class="cu-list menu-avatar"
+						@click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
 						<view class="cu-item">
 							<view class="cu-avatar round"
-								style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"
-								@click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
+								style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);">
 							</view>
 							<view class="content flex-sub">
-								<view @click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
+								<view>
 									{{item.createBy}}
 								</view>
 								<view class="text-gray text-sm flex justify-between">
@@ -60,26 +60,28 @@
 							</view>
 						</view>
 					</view>
-					<view class="text-content" @click="gotoPage('/pages/diary/diaryview?id=' + item.id)">
-						{{item.title}}
-					</view>
-					<view class="text-gray text-sm text-right padding">
-						<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
-						<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
-						<text class="cuIcon-messagefill margin-lr-xs"></text> 30
+					<view @click="gotoPage('/pages/diary/diaryview?id=' + item.id)">
+						<view class="text-content text-black text-bold text-left text-xl">
+							{{item.title}}
+						</view>
+						<view class="text-gray text-sm text-right padding">
+							<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+							<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+							<text class="cuIcon-messagefill margin-lr-xs"></text> 30
+						</view>
 					</view>
 				</view>
 			</block>
 			<block v-if="curSecondLevelTab==1">
 				<view class="cu-item shadow solid-top" v-for="(item, index) in supplies" :key="item.id">
-					<view class="cu-list menu-avatar">
+					<view class="cu-list menu-avatar"
+						@click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
 						<view class="cu-item">
 							<view class="cu-avatar round"
-								style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"
-								@click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
+								style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);">
 							</view>
 							<view class="content flex-sub">
-								<view @click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
+								<view>
 									{{item.createBy}}
 								</view>
 								<view class="text-gray text-sm flex justify-between">
@@ -88,13 +90,81 @@
 							</view>
 						</view>
 					</view>
-					<view class="text-content" @click="gotoPage('/pages/diary/supply/supplydetail?id=' + item.id)">
-						{{item.title}}
+					<view @click="gotoPage('/pages/diary/supply/supplydetail?id=' + item.id)">
+						<view class="text-content text-black text-bold text-left text-xl">
+							{{item.title}}
+						</view>
+						<view class="text-gray text-sm text-right padding">
+							<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+							<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+							<text class="cuIcon-messagefill margin-lr-xs"></text> 30
+						</view>
 					</view>
-					<view class="text-gray text-sm text-right padding">
-						<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
-						<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
-						<text class="cuIcon-messagefill margin-lr-xs"></text> 30
+				</view>
+			</block>
+			<block v-if="curSecondLevelTab==2">
+				<view class="cu-item shadow solid-top" v-for="(item, index) in dailies" :key="item.id">
+					<view class="cu-list menu-avatar"
+						@click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
+						<view class="cu-item">
+							<view class="cu-avatar round"
+								style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);">
+							</view>
+							<view class="content flex-sub">
+								<view>
+									{{item.createBy}}
+								</view>
+								<view class="text-gray text-sm flex justify-between">
+									{{item.createTime}}
+								</view>
+							</view>
+						</view>
+					</view>
+					<view @click="gotoPage('/pages/diary/daily/dailydetail?id=' + item.id)">
+						<view class="text-content text-black text-bold text-left text-xl">
+							{{item.title}}
+						</view>
+						<view class="text-gray text-sm text-right padding">
+							<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+							<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+							<text class="cuIcon-messagefill margin-lr-xs"></text> 30
+						</view>
+					</view>
+				</view>
+			</block>
+			<block v-if="curSecondLevelTab==3">
+				<view class="cu-item shadow solid-top" v-for="(item, index) in products" :key="item.id">
+					<view class="cu-list menu-avatar"
+						@click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
+						<view class="cu-item">
+							<view class="cu-avatar round"
+								style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);">
+							</view>
+							<view class="content flex-sub">
+								<view>
+									{{item.createBy}}
+								</view>
+								<view class="text-gray text-sm flex justify-between">
+									{{item.createTime}}
+								</view>
+							</view>
+						</view>
+					</view>
+					<view @click="gotoPage('/pages/product/productdetail?id=' + item.id)">
+						<text class="text-red text-center text-xl">￥</text>
+						<text class="text-red text-center text-xl">{{item.price}}</text>
+						<view class="text-content text-black text-bold text-left text-xl">
+							{{item.name}}
+						</view>
+						<view class="grid flex-sub padding-lr col-1">
+							<view class="bg-img only-img" :style="'background-image:url(' + item.cover + ');'">
+							</view>
+						</view>
+						<view class="text-gray text-sm text-right padding">
+							<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+							<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+							<text class="cuIcon-messagefill margin-lr-xs"></text> 30
+						</view>
 					</view>
 				</view>
 			</block>
@@ -111,6 +181,10 @@
 			url = '/showme/showmePost/list';
 		} else if (that.curSecondLevelTab == 1) {
 			url = '/showme/showmeSupply/list';
+		} else if (that.curSecondLevelTab == 2) {
+			url = '/showme/showmeDaily/list';
+		} else if (that.curSecondLevelTab == 3) {
+			url = '/showme/showmeProduct/list';
 		}
 
 		url = url + '?pageNo=' + that.pageNo + '&pageSize=' + that.pageSize + '&column=createTime&order=desc';
@@ -122,6 +196,13 @@
 					that.posts = ret.data.result.records;
 				} else if (that.curSecondLevelTab == 1) {
 					that.supplies = ret.data.result.records;
+				} else if (that.curSecondLevelTab == 2) {
+					that.dailies = ret.data.result.records;
+				} else if (that.curSecondLevelTab == 3) {
+					that.products = ret.data.result.records;
+					for (let i = 0; i < that.products.length; i++) {
+						that.products[i].cover = that.$config.staticDomainURL + '/' + that.products[i].cover;
+					}
 				}
 			}
 		})
@@ -152,7 +233,9 @@
 				lockReconnect: false,
 				msgCount: 0,
 				supplies: [], //供应列表
-				posts: [] //日记列表
+				posts: [], //日记列表,
+				dailies: [], //动态列表
+				products: [], //商品列表
 			}
 		},
 		beforeCreate: function(e) {

@@ -236,8 +236,8 @@
 			"allowsBounceVertical": "NO"
 		},
 		"navigationBarBackgroundColor": "#0081ff",
-		"navigationBarTitleText": "破圈互联",
-		"navigationStyle": "custom",
+		"navigationBarTitleText": "破圈推广",
+		"navigationStyle": "default",
 		"navigationBarTextStyle": "white"
 	},
 	"usingComponts": true,

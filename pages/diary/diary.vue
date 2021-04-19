@@ -51,21 +51,21 @@
 		<scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="0">
 			<view :class="curTab==0? 'cu-item text-green cur':'cu-item'" data-id="0" @click="tabSelect">
 				<text v-if="isMe">我的供应</text>
-				<text v-else>ta 的供应</text>
+				<text v-else>TA 的供应</text>
 			</view>
 			<view :class="curTab==1? 'cu-item text-green cur':'cu-item'" data-id="1" @click="tabSelect">
 				<text v-if="isMe">我的需求</text>
-				<text v-else>ta 的需求</text>
+				<text v-else>TA 的需求</text>
 			</view>
 			<view :class="curTab==3? 'cu-item text-green cur':'cu-item'" data-id="3" @click="tabSelect">
 				<text v-if="isMe">我的商品</text>
-				<text v-else>ta 的商品</text>
+				<text v-else>TA 的商品</text>
 			</view>
 			<view :class="curTab==2? 'cu-item text-green cur':'cu-item'" data-id="2" @click="tabSelect">
 				<text v-if="isMe">我的日常</text>
-				<text v-else>ta 的日常</text>
+				<text v-else>TA 的日常</text>
 			</view>
-		</scroll-view>
+		</scroll-view>		
 		<view class="cu-list menu sm-border">
 			<block v-if="curTab==0">
 				<navigator v-for="(item, index) in supplies" :key="item.id" class="cu-item arrow"
