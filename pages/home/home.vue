@@ -22,35 +22,47 @@
 		<scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="0">
 			<view :class="curSecondLevelTab==0? 'cu-item text-green cur':'cu-item'" data-id="0"
 				@click="secondLevelTabSelect">
-				供应
+				需求圈
 			</view>
 			<view :class="curSecondLevelTab==1? 'cu-item text-green cur':'cu-item'" data-id="1"
 				@click="secondLevelTabSelect">
-				需求
+				供应圈
+			</view>
+			<view :class="curSecondLevelTab==2? 'cu-item text-green cur':'cu-item'" data-id="2"
+				@click="secondLevelTabSelect">
+				动态圈
+			</view>
+			<view :class="curSecondLevelTab==3? 'cu-item text-green cur':'cu-item'" data-id="3"
+				@click="secondLevelTabSelect">
+				商圈
+			</view>
+			<view :class="curSecondLevelTab==4? 'cu-item text-green cur':'cu-item'" data-id="4"
+				@click="secondLevelTabSelect">
+				直播圈
 			</view>
 		</scroll-view>
 		<view class="cu-card dynamic">
 			<block v-if="curSecondLevelTab==0">
-				<view class="cu-item shadow solid-top" v-for="(item, index) in supplies" :key="item.id">
+				<view class="cu-item shadow solid-top" v-for="(item, index) in posts" :key="item.id">
 					<view class="cu-list menu-avatar">
 						<view class="cu-item">
-							<navigator class="cu-avatar round"
+							<view class="cu-avatar round"
 								style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"
-								:url="'/pages/diary/diaryindex?userId=' + item.createBy">
-							</navigator>
+								@click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
+							</view>
 							<view class="content flex-sub">
-								<navigator :url="'/pages/diary/diaryindex?userId=' + item.createBy">
+								<view @click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
 									{{item.createBy}}
-								</navigator>
+								</view>
 								<view class="text-gray text-sm flex justify-between">
 									{{item.createTime}}
 								</view>
 							</view>
 						</view>
 					</view>
-					<navigator class="text-content" :url="'/pages/diary/supply/supplydetail?id=' + item.id">
+					<view class="text-content" @click="gotoPage('/pages/diary/diaryview?id=' + item.id)">
 						{{item.title}}
-					</navigator>
+					</view>
 					<view class="text-gray text-sm text-right padding">
 						<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
 						<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
@@ -59,26 +71,26 @@
 				</view>
 			</block>
 			<block v-if="curSecondLevelTab==1">
-				<view class="cu-item shadow solid-top" v-for="(item, index) in posts" :key="item.id">
+				<view class="cu-item shadow solid-top" v-for="(item, index) in supplies" :key="item.id">
 					<view class="cu-list menu-avatar">
 						<view class="cu-item">
-							<navigator class="cu-avatar round"
+							<view class="cu-avatar round"
 								style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"
-								:url="'/pages/diary/diaryindex?userId=' + item.createBy">
-							</navigator>
+								@click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
+							</view>
 							<view class="content flex-sub">
-								<navigator :url="'/pages/diary/diaryindex?userId=' + item.createBy">
+								<view @click="gotoPage('/pages/diary/diaryindex?userId=' + item.createBy)">
 									{{item.createBy}}
-								</navigator>
+								</view>
 								<view class="text-gray text-sm flex justify-between">
 									{{item.createTime}}
 								</view>
 							</view>
 						</view>
 					</view>
-					<navigator class="text-content" :url="'/pages/diary/diaryview?id=' + item.id">
+					<view class="text-content" @click="gotoPage('/pages/diary/supply/supplydetail?id=' + item.id)">
 						{{item.title}}
-					</navigator>
+					</view>
 					<view class="text-gray text-sm text-right padding">
 						<text class="cuIcon-attentionfill margin-lr-xs"></text> 10
 						<text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
@@ -96,9 +108,9 @@
 	function loadData(that) {
 		let url;
 		if (that.curSecondLevelTab == 0) {
-			url = '/showme/showmeSupply/list';
-		} else if (that.curSecondLevelTab == 1) {
 			url = '/showme/showmePost/list';
+		} else if (that.curSecondLevelTab == 1) {
+			url = '/showme/showmeSupply/list';
 		}
 
 		url = url + '?pageNo=' + that.pageNo + '&pageSize=' + that.pageSize + '&column=createTime&order=desc';
@@ -107,9 +119,9 @@
 				that.pages = ret.data.result.pages;
 
 				if (that.curSecondLevelTab == 0) {
-					that.supplies = ret.data.result.records;
-				} else if (that.curSecondLevelTab == 1) {
 					that.posts = ret.data.result.records;
+				} else if (that.curSecondLevelTab == 1) {
+					that.supplies = ret.data.result.records;
 				}
 			}
 		})
@@ -167,6 +179,12 @@
 			console.log('home-updated')
 		},
 		methods: {
+			gotoPage(url) {
+				console.log('gotoPage:' + url)
+				uni.navigateTo({
+					url: url
+				})
+			},
 			secondLevelTabSelect(e) {
 				this.curSecondLevelTab = e.currentTarget.dataset.id;
 				this.pageNo = 1;

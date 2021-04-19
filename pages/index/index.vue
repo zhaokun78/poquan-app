@@ -9,21 +9,16 @@
 			<view :class="PageCur=='home'?'action text-green':'action text-gray'" @click="NavChange" data-cur="home">
 				<view class='cuIcon-homefill'></view>主页
 			</view>
-			<view :class="PageCur=='shop'?'action text-green':'action text-gray'" @click="NavChange" data-cur="shop">
-				<view class='cuIcon-shopfill'></view>商城
+			<view :class="PageCur=='diary'?'action text-green':'action text-gray'" @click="NavChange" data-cur="diary">
+				<view class='cuIcon-writefill'></view>发布
 			</view>
 			<view class="action text-gray add-action">
 				<button class="cu-btn cuIcon-add bg-green shadow"></button>
-				精准推广
+				破圈推广
 			</view>
-			<view :class="PageCur=='diary'?'action text-green':'action text-gray'" @click="NavChange" data-cur="diary">
-				<view class='cuIcon-writefill'></view>发布内容
-			</view>
-			<!--
 			<view :class="PageCur=='message'?'action text-green':'action text-gray'" @click="NavChange" data-cur="message">
 				<view class='cuIcon-messagefill'></view>消息
 			</view>
-			-->
 			<view :class="PageCur=='people'?'action text-green':'action text-gray'" @click="NavChange"
 				data-cur="people">
 				<view class='cuIcon-peoplefill'></view>我的

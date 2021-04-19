@@ -8,13 +8,13 @@
 		<view class="cu-item shadow">
 			<view class="cu-list menu-avatar">
 				<view class="cu-item">
-					<navigator class="cu-avatar round" :style="{ backgroundImage:'url(' + avatar + ')' }"
-						:url="'/pages/diary/diaryindex?userId=' + product.createBy">
-					</navigator>
+					<view class="cu-avatar round" :style="{ backgroundImage:'url(' + avatar + ')' }"
+						@click="gotoPage('/pages/diary/diaryindex?userId=' + product.createBy)">
+					</view>
 					<view class="content flex-sub">
-						<navigator :url="'/pages/diary/diaryindex?userId=' + product.createBy">
+						<view @click="gotoPage('/pages/diary/diaryindex?userId=' + product.createBy)">
 							{{product.createBy}}
-						</navigator>						
+						</view>
 						<view class="text-gray text-sm">
 							{{product.createTime}}
 						</view>
@@ -81,6 +81,12 @@
 			}
 		},
 		methods: {
+			gotoPage(url) {
+				console.log('gotoPage:' + url)
+				uni.navigateTo({
+					url: url
+				})
+			},
 			async pay() {
 				//创建订单
 				let res = await this.$http.post('/showme/showmeOrder/add', {

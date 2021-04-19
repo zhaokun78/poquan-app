@@ -67,7 +67,7 @@
 				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.5s'}]">
 					<view class="content">
 						<text class="cuIcon-group text-blue"></text>
-						<text class="text-grey">我的团队</text>
+						<text class="text-grey">圈层关系</text>
 					</view>
 				</view>
 				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.7s'}]">

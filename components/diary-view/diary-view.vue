@@ -5,14 +5,14 @@
 			<view class="text-gray text-left text-sm">{{post.industryCategory}}</view>
 			<view class="cu-list menu-avatar">
 				<view class="cu-item">
-					<navigator class="cu-avatar round" :style="{ backgroundImage:'url(' + post.avatar + ')' }"
-						:url="'/pages/diary/diaryindex?userId=' + post.createBy">
-					</navigator>
+					<view class="cu-avatar round" :style="{ backgroundImage:'url(' + post.avatar + ')' }"
+						@click="gotoPage('/pages/diary/diaryindex?userId=' + post.createBy)">
+					</view>
 					<view class="content flex-sub">
 						<view class="text-gray text-sm flex justify-between">
-							<navigator :url="'/pages/diary/diaryindex?userId=' + post.createBy">
+							<view @click="gotoPage('/pages/diary/diaryindex?userId=' + post.createBy)">
 								{{post.createBy}}
-							</navigator>
+							</view>
 							<view class="text-gray text-sm">
 								<button class="cu-btn round sm bg-white"><text class="cuIcon-share"></text>分享</button>
 								<template v-if="hadFollow">
@@ -159,6 +159,12 @@
 			//console.log('updated')
 		},
 		methods: {
+			gotoPage(url) {
+				console.log('gotoPage:' + url)
+				uni.navigateTo({
+					url: url
+				})
+			},
 			/**
 			 * 重新加载日记
 			 */
